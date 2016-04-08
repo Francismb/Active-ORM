@@ -13,7 +13,7 @@ public class SQLiteDatabaseConfiguration extends DatabaseConfiguration {
      * @param location the location of the SQLLite database
      */
     public SQLiteDatabaseConfiguration(final String location) {
-        super(location, null, null);
+        super(location);
     }
 
 }
