@@ -5,20 +5,35 @@ package org.jactiverecord.database.configuration;
  * Project Jactive-Record.
  *
  * A database configuration object containing information
- * on were the database is located
+ * on were the database is located and authentication info.
  */
 public abstract class DatabaseConfiguration {
 
     /**
-     * The ip address or location of the database
+     * The address of the database
      */
-    public final String url;
+    public final String address;
+
+    /**
+     * The username to use when connecting to the database
+     */
+    public final String username;
+
+    /**
+     * The password to use when connecting to the database
+     */
+    public final String password;
 
     /**
      * Constructs a new {@link DatabaseConfiguration}
-     * @param url the url or location of the database
+     *
+     * @param address  the address of the database
+     * @param username the username to connect to the database
+     * @param password the password to connect to the database
      */
-    public DatabaseConfiguration(final String url) {
-        this.url = url;
+    public DatabaseConfiguration(final String address, final String username, final String password) {
+        this.address = address;
+        this.username = username;
+        this.password = password;
     }
 }

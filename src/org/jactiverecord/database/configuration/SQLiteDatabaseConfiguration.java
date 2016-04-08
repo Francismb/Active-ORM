@@ -10,10 +10,10 @@ public class SQLiteDatabaseConfiguration extends DatabaseConfiguration {
 
     /**
      * Constructs a new {@link SQLiteDatabaseConfiguration}
-     * @param location the location of the SQLLite database
+     * @param address the address of the SQLLite database
      */
-    public SQLiteDatabaseConfiguration(final String location) {
-        super(location);
+    public SQLiteDatabaseConfiguration(final String address) {
+        super(address, null, null);
     }
 
 }
