@@ -9,11 +9,12 @@ public class PostgreSQLDatabaseConfiguration extends DatabaseConfiguration {
     /**
      * Constructs a new {@link PostgreSQLDatabaseConfiguration}
      *
+     * @param name     the name of the database
      * @param address  the address or location of the database
      * @param username the username to connect to the database
      * @param password the password to connect to the database
      */
-    public PostgreSQLDatabaseConfiguration(final String address, final String username, final String password) {
-        super(address, username, password);
+    public PostgreSQLDatabaseConfiguration(final String name, final String address, final String username, final String password) {
+        super(name, address, username, password);
     }
 }

@@ -10,6 +10,11 @@ package org.jactiverecord.database.configuration;
 public abstract class DatabaseConfiguration {
 
     /**
+     * The name of the database
+     */
+    public final String name;
+
+    /**
      * The address of the database
      */
     public final String address;
@@ -27,11 +32,13 @@ public abstract class DatabaseConfiguration {
     /**
      * Constructs a new {@link DatabaseConfiguration}
      *
+     * @param name     the name of the database
      * @param address  the address of the database
      * @param username the username to connect to the database
      * @param password the password to connect to the database
      */
-    public DatabaseConfiguration(final String address, final String username, final String password) {
+    public DatabaseConfiguration(final String name, final String address, final String username, final String password) {
+        this.name = name;
         this.address = address;
         this.username = username;
         this.password = password;
