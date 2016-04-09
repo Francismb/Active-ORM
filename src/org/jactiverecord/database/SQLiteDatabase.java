@@ -9,6 +9,8 @@ import java.sql.SQLException;
 /**
  * Created by Francis on 9/04/16.
  * Project Jactive-Record.
+ *
+ * A SQLite {@link Database} implementation.
  */
 public class SQLiteDatabase extends Database {
 
@@ -23,12 +25,12 @@ public class SQLiteDatabase extends Database {
 
     public Connection connect() {
         try {
-            return DriverManager.getConnection("jdbc:sqlite:" + super.configuration.address);
+            final Connection connection = DriverManager.getConnection("jdbc:sqlite:" + super.configuration.address);
+            return connection;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return connection;
     }
-
 
 }
