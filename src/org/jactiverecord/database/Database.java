@@ -122,7 +122,7 @@ public abstract class Database {
     public PreparedStatement prepare(final String sql, final Object[] parameters) {
         try {
             final PreparedStatement statement = connection.prepareStatement(sql);
-            if (sql.indexOf('?') == -1) {
+            if (sql.indexOf('?') == -1 || parameters.length == 0) {
                 return statement;
             }
             for (int i = 0; i < parameters.length; i++) {
