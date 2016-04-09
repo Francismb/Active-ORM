@@ -12,8 +12,7 @@ public class GeneralTest {
 
     @Test
     public void test() {
-        int i = 5;
-        assertEquals(5, i);
+        assertEquals("user1s", "user1s");
     }
 
 }
