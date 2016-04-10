@@ -17,12 +17,12 @@ import java.util.List;
 public class ObjectMapping {
 
     /**
-     * The name of the table
+     * The {@link Table} annotation
      */
     protected Table table;
 
     /**
-     * A list of FieldMappings
+     * A list of {@link FieldMapping}
      */
     protected final List<FieldMapping> mappings = new ArrayList<FieldMapping>();
 

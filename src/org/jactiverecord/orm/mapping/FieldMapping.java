@@ -14,12 +14,12 @@ import java.lang.reflect.Field;
 public class FieldMapping<T> {
 
     /**
-     * The field that is being mapped
+     * The {@link Field} that is being mapped
      */
     protected final Field field;
 
     /**
-     * The class that the field belongs to.
+     * The {@link Class} that the field belongs to.
      */
     protected final Class clazz;
 
