@@ -1,0 +1,40 @@
+package org.jactiverecord.orm.mapping;
+
+import org.jactiverecord.orm.annotations.Column;
+import org.jactiverecord.orm.annotations.Table;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Francis on 9/04/16.
+ * Project Jactive-Record.
+ *
+ * {@link ObjectMapping} contains the mapping from a ActiveRecord to
+ * database information
+ */
+public class ObjectMapping {
+
+    /**
+     * The name of the table
+     */
+    protected Table table;
+
+    /**
+     * A list of FieldMappings
+     */
+    protected final List<FieldMapping> mappings = new ArrayList<FieldMapping>();
+
+    /**
+     * Constructs a new {@link ObjectMapping}
+     */
+    public ObjectMapping() {
+        this.table = getClass().getAnnotation(Table.class);
+        for (final Field field : getClass().getFields()) {
+            if (field.isAnnotationPresent(Column.class)) {
+                mappings.add(new FieldMapping(getClass(), field, this));
+            }
+        }
+    }
+}

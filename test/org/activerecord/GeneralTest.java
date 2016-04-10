@@ -12,6 +12,9 @@ public class GeneralTest {
 
     @Test
     public void test() {
+        final UserModel model = new UserModel();
+        model.name = "tom";
+        model.save();
         assertEquals("user1s", "user1s");
     }
 
