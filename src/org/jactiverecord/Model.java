@@ -1,4 +1,4 @@
-package org.jactiverecord.orm;
+package org.jactiverecord;
 
 /**
  * Created by Francis on 9/04/16.

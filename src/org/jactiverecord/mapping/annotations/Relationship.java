@@ -1,4 +1,4 @@
-package org.jactiverecord.orm.annotations;
+package org.jactiverecord.mapping.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,8 +11,11 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Column {
+public @interface Relationship {
 
-    public String name();
+    public Type relationship();
 
+    public enum Type {
+        BELONGS_TO, HAS_ONE, HAS_MANY
+    }
 }

@@ -1,4 +1,4 @@
-package org.jactiverecord.orm.annotations;
+package org.jactiverecord.mapping.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,10 +9,7 @@ import java.lang.annotation.Target;
  * Created by Francis on 9/04/16.
  * Project Jactive-Record.
  */
-@Target(ElementType.TYPE)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Table {
-
-    public String name();
-
+public @interface PrimaryKey {
 }

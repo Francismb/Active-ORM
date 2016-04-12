@@ -36,7 +36,7 @@ public abstract class Database {
      */
     public Database(final DatabaseConfiguration configuration) {
         if (configuration == null) {
-            throw new IllegalArgumentException("A SQLLiteDatabaseConfiguration is required");
+            throw new IllegalArgumentException("A Configuration is required");
         }
         this.configuration = configuration;
         connection = connect();

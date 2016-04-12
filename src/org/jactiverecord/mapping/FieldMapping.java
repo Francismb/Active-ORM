@@ -1,8 +1,8 @@
-package org.jactiverecord.orm.mapping;
+package org.jactiverecord.mapping;
 
-import org.jactiverecord.orm.annotations.Column;
-import org.jactiverecord.orm.annotations.PrimaryKey;
-import org.jactiverecord.orm.annotations.Relationship;
+import org.jactiverecord.mapping.annotations.Column;
+import org.jactiverecord.mapping.annotations.PrimaryKey;
+import org.jactiverecord.mapping.annotations.Relationship;
 import org.jactiverecord.utility.Reflection;
 
 import java.lang.reflect.Field;

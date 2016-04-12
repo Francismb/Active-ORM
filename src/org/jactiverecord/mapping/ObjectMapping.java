@@ -1,7 +1,7 @@
-package org.jactiverecord.orm.mapping;
+package org.jactiverecord.mapping;
 
-import org.jactiverecord.orm.annotations.Column;
-import org.jactiverecord.orm.annotations.Table;
+import org.jactiverecord.mapping.annotations.Column;
+import org.jactiverecord.mapping.annotations.Table;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
