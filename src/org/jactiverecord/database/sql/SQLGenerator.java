@@ -1,4 +1,4 @@
-package org.jactiverecord.sql;
+package org.jactiverecord.database.sql;
 
 /**
  * Created by Francis on 13/04/16.
