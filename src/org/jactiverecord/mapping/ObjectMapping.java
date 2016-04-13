@@ -15,7 +15,7 @@ import java.util.List;
  * Project Jactive-Record.
  *
  * {@link ObjectMapping} contains the mapping from a ActiveRecord to
- * database information
+ * database information.
  */
 public class ObjectMapping {
 
