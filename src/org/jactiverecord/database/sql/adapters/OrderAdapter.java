@@ -5,4 +5,12 @@ package org.jactiverecord.database.sql.adapters;
  * Project Jactive-Record.
  */
 public class OrderAdapter {
+
+    protected final String column;
+    protected final String direction;
+
+    public OrderAdapter(final String column, final String direction) {
+        this.column = column;
+        this.direction = direction;
+    }
 }

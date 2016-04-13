@@ -5,4 +5,11 @@ package org.jactiverecord.database.sql.adapters;
  * Project Jactive-Record.
  */
 public class LimitAdapter {
+
+    protected final int limit;
+
+    public LimitAdapter(final int limit) {
+        this.limit = limit;
+    }
+
 }
