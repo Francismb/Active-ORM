@@ -8,7 +8,7 @@ import org.jactiverecord.database.sql.adapters.OrderAdapter;
  * Created by Francis on 13/04/16.
  * Project Jactive-Record.
  *
- * Default implementation of {@link SQLGenerator}
+ * Default implementation of {@link SQLGenerator}.
  */
 public class DefaultSQLGenerator implements SQLGenerator {
 

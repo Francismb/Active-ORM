@@ -12,7 +12,6 @@ import org.jactiverecord.database.sql.adapters.OrderAdapter;
  */
 public interface SQLGenerator {
 
-
     /**
      * Generates the appropriate sql for a select statement.
      * SELECT column_1, column_2 WHERE id = 2 AND name = "NAME" ORDER BY date_created ASC LIMIT 1
