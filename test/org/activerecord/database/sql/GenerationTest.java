@@ -58,13 +58,27 @@ public class GenerationTest {
     }
 
     @Test
-    public void testInsertSelect() {
+    public void testInsert() {
         final DefaultSQLGenerator generator = new DefaultSQLGenerator();
         final String[] columns = new String[] {
                 "first_col", "second_col", "third_col"
         };
-        final String correctSQL = "INSERT INTO test_table (`first_col`, `second_col`, `third_col`) VALUES (?, ?, ?)";
+        final String correctSQL = "INSERT INTO `test_table` (`first_col`, `second_col`, `third_col`) VALUES (?, ?, ?)";
         assertEquals(generator.insert("test_table", columns), correctSQL);
+    }
+
+    @Test
+    public void testUpdate() {
+        final DefaultSQLGenerator generator = new DefaultSQLGenerator();
+        final String[] columns = new String[] {
+                "first_col", "second_col", "third_col"
+        };
+        final WhereExpression[] conditions = new WhereExpression[] {
+                new WhereExpression("first_col", ">="),
+                new WhereExpression("second_col", "=")
+        };
+        final String correctSQL = "UPDATE `test_table` SET `first_col` = ?, `second_col` = ?, `third_col` = ? WHERE `first_col` >= ? AND `second_col` = ?";
+        assertEquals(generator.update("test_table", columns, conditions), correctSQL);
     }
 
 }
