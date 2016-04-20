@@ -7,7 +7,7 @@ import org.jactiverecord.database.sql.expressions.OrderExpression;
 /**
  * Created by Francis on 13/04/16.
  * Project Jactive-Record.
- *
+ * <p>
  * Default implementation of {@link SQLGenerator}.
  */
 public class DefaultSQLGenerator implements SQLGenerator {
@@ -15,7 +15,7 @@ public class DefaultSQLGenerator implements SQLGenerator {
     public String select(final String table, final String[] columns, final WhereExpression[] conditions, final OrderExpression[] orders, final boolean limit) {
         // Throw an exception if there is not table specified
         if (table == null || table.length() == 0) {
-            throw new NullPointerException("Table name cannot be null");
+            throw new IllegalArgumentException("Table name must be specified");
         }
 
         // Create a string buffer
@@ -45,6 +45,9 @@ public class DefaultSQLGenerator implements SQLGenerator {
             sql.append("* ");
         }
 
+        // Add the from table sql
+        sql.append("FROM ").append("`").append(table).append("`").append(" ");
+
         // If conditions have been defined then add the conditions
         // to the expression
         if (conditions != null && conditions.length > 0) {
@@ -73,8 +76,8 @@ public class DefaultSQLGenerator implements SQLGenerator {
                 // Add the condition to the sql
                 sql.append('`').append(order.column).append('`').append(" ").append(order.direction);
 
-                // If there is another condition after this
-                // one add AND sql
+                // If there is another order after this
+                // one add a ', ' to the sql
                 if ((i + 1) < orders.length) {
                     sql.append(", ");
                 } else {
@@ -93,10 +96,54 @@ public class DefaultSQLGenerator implements SQLGenerator {
     }
 
     public String insert(final String table, final String[] columns) {
-        if (table == null) {
-            throw new NullPointerException("Table name cannot be null");
+        // Throw an exception if there is not table specified
+        if (table == null || table.length() == 0) {
+            throw new IllegalArgumentException("Table name must be specified");
         }
-        return null;
+
+        // Throw an exception if there is no columns specified
+        if (columns == null || columns.length == 0) {
+            throw new IllegalArgumentException("More then one column must be specified");
+        }
+
+        // Create a string buffer
+        final StringBuilder sql = new StringBuilder();
+
+        // Append initial SELECT
+        sql.append("INSERT INTO ").append(table).append(" ");
+
+        // add the columns to the expression
+        sql.append("(");
+        for (int i = 0; i < columns.length; i++) {
+            final String column = columns[i];
+
+            // Add the condition to the sql
+            sql.append('`').append(column).append('`');
+
+            // If there is another column after this
+            // one then add ', ' to the sql
+            if ((i + 1) < columns.length) {
+                sql.append(", ");
+            }
+        }
+        sql.append(") ");
+
+        sql.append("VALUES (");
+        for (int i = 0; i < columns.length; i++) {
+
+            // Append column value place holder
+            sql.append("?");
+
+            /// If there is another column after this
+            // one then add ', ' to the sql
+            if ((i + 1) < columns.length) {
+                sql.append(", ");
+            }
+        }
+        sql.append(')');
+
+        // Return the sql and trim and leading or trailing whitespace
+        return sql.toString().trim();
     }
 
     public String update(final String table, final String[] columns, final WhereExpression[] conditions) {

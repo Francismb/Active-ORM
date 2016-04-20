@@ -29,7 +29,7 @@ public class GenerationTest {
                 new OrderExpression("first_col", "ASC"),
                 new OrderExpression("second_col", "DESC")
         };
-        final String correctSQL = "SELECT `first_col`, `second_col`, `third_col` WHERE `condition_col_1` = ? AND `condition_col_2` > ? ORDER BY `first_col` ASC, `second_col` DESC LIMIT ?";
+        final String correctSQL = "SELECT `first_col`, `second_col`, `third_col` FROM `test_table` WHERE `condition_col_1` = ? AND `condition_col_2` > ? ORDER BY `first_col` ASC, `second_col` DESC LIMIT ?";
         assertEquals(generator.select("test_table", columns, conditions, orders, true), correctSQL);
     }
 
@@ -43,7 +43,7 @@ public class GenerationTest {
                 new WhereExpression("condition_col_1", "="),
                 new WhereExpression("condition_col_2", ">")
         };
-        final String correctSQL = "SELECT `first_col`, `second_col`, `third_col` WHERE `condition_col_1` = ? AND `condition_col_2` > ? LIMIT ?";
+        final String correctSQL = "SELECT `first_col`, `second_col`, `third_col` FROM `test_table` WHERE `condition_col_1` = ? AND `condition_col_2` > ? LIMIT ?";
         assertEquals(generator.select("test_table", columns, conditions, null, true), correctSQL);
     }
 
@@ -53,8 +53,18 @@ public class GenerationTest {
         final String[] columns = new String[] {
                 "first_col", "second_col", "third_col"
         };
-        final String correctSQL = "SELECT `first_col`, `second_col`, `third_col` LIMIT ?";
+        final String correctSQL = "SELECT `first_col`, `second_col`, `third_col` FROM `test_table` LIMIT ?";
         assertEquals(generator.select("test_table", columns, null, null, true), correctSQL);
+    }
+
+    @Test
+    public void testInsertSelect() {
+        final DefaultSQLGenerator generator = new DefaultSQLGenerator();
+        final String[] columns = new String[] {
+                "first_col", "second_col", "third_col"
+        };
+        final String correctSQL = "INSERT INTO test_table (`first_col`, `second_col`, `third_col`) VALUES (?, ?, ?)";
+        assertEquals(generator.insert("test_table", columns), correctSQL);
     }
 
 }
