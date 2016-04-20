@@ -19,19 +19,12 @@ public class WhereExpression {
     public final String operator;
 
     /**
-     * The parameter which is used on the right side of the expression
-     */
-    public final String parameter;
-
-    /**
      * Constructs a new {@link WhereExpression}
      * @param column the column name
      * @param operator the operator type
-     * @param parameter the parameter
      */
-    public WhereExpression(final String column, final String operator, final String parameter) {
+    public WhereExpression(final String column, final String operator) {
         this.column = column;
         this.operator = operator;
-        this.parameter = parameter;
     }
 }

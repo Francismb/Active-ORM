@@ -1,7 +1,6 @@
 package org.jactiverecord.database.sql;
 
 import org.jactiverecord.database.sql.expressions.WhereExpression;
-import org.jactiverecord.database.sql.expressions.LimitExpression;
 import org.jactiverecord.database.sql.expressions.OrderExpression;
 
 /**
@@ -22,7 +21,7 @@ public interface SQLGenerator {
      * @param limit the limit of results.
      * @return the appropriate sql for the select statement.
      */
-    public String select(final String table, final String[] columns, final WhereExpression[] conditions, final OrderExpression[] order, final LimitExpression limit);
+    public String select(final String table, final String[] columns, final WhereExpression[] conditions, final OrderExpression[] orders, final boolean limit);
 
 
     /**
