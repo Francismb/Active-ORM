@@ -11,17 +11,17 @@ public class WhereExpression {
     /**
      * The column name used on the left side of the expression
      */
-    protected final String column;
+    public final String column;
 
     /**
      * The type of comparator, equal, larger then etc.
      */
-    protected final String operator;
+    public final String operator;
 
     /**
      * The parameter which is used on the right side of the expression
      */
-    protected final String parameter;
+    public final String parameter;
 
     /**
      * Constructs a new {@link WhereExpression}

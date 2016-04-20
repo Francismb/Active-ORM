@@ -11,7 +11,7 @@ public class LimitExpression {
     /**
      * The limit of results
      */
-    protected final int limit;
+    public final int limit;
 
     /**
      * Constructs a new {@link LimitExpression}

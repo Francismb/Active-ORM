@@ -11,12 +11,12 @@ public class OrderExpression {
     /**
      * The column to order by
      */
-    protected final String column;
+    public final String column;
 
     /**
      * The directory to order in ASC or DESC
      */
-    protected final String direction;
+    public final String direction;
 
     /**
      * Constructs a new {@link OrderExpression}
