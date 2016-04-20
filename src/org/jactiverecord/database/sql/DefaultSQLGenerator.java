@@ -19,14 +19,14 @@ public class DefaultSQLGenerator implements SQLGenerator {
         return null;
     }
 
-    public String insert(final String table, final String[] columns, final String[] values) {
+    public String insert(final String table, final String[] columns) {
         if (table == null) {
             throw new NullPointerException("Table name cannot be null");
         }
         return null;
     }
 
-    public String update(final String table, final String[] columns, final String[] values, final ConditionAdapter[] conditions) {
+    public String update(final String table, final String[] columns, final ConditionAdapter[] conditions) {
         if (table == null) {
             throw new NullPointerException("Table name cannot be null");
         }

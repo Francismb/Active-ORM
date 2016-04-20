@@ -30,21 +30,19 @@ public interface SQLGenerator {
      * INSERT INTO table (columns_1, column_2) VALUES (value_1, value_2)
      * @param table the name of the table.
      * @param columns the columns to insert data into.
-     * @param values the values to insert into the columns.
      * @return the appropriate sql for the insert statement.
      */
-    public String insert(final String table, final String[] columns, final String[] values);
+    public String insert(final String table, final String[] columns);
 
     /**
      * Generates the appropriate sql for a update statement.
      * UPDATE users SET column_1 = value_1, column_2 = value_2 WHERE ID = 2 AND name = "NAME"
      * @param table the name of the table.
      * @param columns the columns to update data in.
-     * @param values the values to update into the columns.
      * @param conditions an array of {@link ConditionAdapter} for conditions.
      * @return the appropriate sql for the update statement.
      */
-    public String update(final String table, final String[] columns, final String[] values, final ConditionAdapter[] conditions);
+    public String update(final String table, final String[] columns, final ConditionAdapter[] conditions);
 
     /**
      * Generates the appropriate sql for a delete statement.
