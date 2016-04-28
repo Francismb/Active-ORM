@@ -29,6 +29,11 @@ public abstract class Database {
     protected final DatabaseConfiguration configuration;
 
     /**
+     * The static database instance.
+     */
+    private static Database instance;
+
+    /**
      * Constructs a new {@link Database}.
      * Connects to the database when the object is constructed.
      *
@@ -144,5 +149,19 @@ public abstract class Database {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void setInstance(final Database database) {
+        if (database == null) {
+            throw new NullPointerException("Parameter database cannot be null");
+        }
+        instance = database;
+    }
+
+    public static Database getInstance() {
+        if (instance == null) {
+            throw new NullPointerException("Database has not been initialized yet");
+        }
+        return instance;
     }
 }

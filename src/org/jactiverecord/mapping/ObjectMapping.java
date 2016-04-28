@@ -25,6 +25,11 @@ public class ObjectMapping {
     protected Table table;
 
     /**
+     * The primary key field mapping
+     */
+    protected FieldMapping primaryKey;
+
+    /**
      * A flag which when true means the record is
      * already persisted else if not persisted is false
      */
@@ -57,6 +62,9 @@ public class ObjectMapping {
                 // Set the primary key annotation if it is present
                 if (field.isAnnotationPresent(PrimaryKey.class)) {
                     mapping.primaryKey = field.getAnnotation(PrimaryKey.class);
+
+                    // Set the primary key field
+                    primaryKey = mapping;
                 }
 
                 // Set the relationship annotation if it is present

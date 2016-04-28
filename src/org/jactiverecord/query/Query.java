@@ -1,6 +1,6 @@
 package org.jactiverecord.query;
 
-import org.jactiverecord.ActiveRecord;
+import org.jactiverecord.mapping.ActiveRecord;
 
 /**
  * Created by Francis on 10/04/16.

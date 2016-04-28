@@ -70,4 +70,13 @@ public class GenerationTest {
         assertEquals(generator.update("test_table", columns, whereColumns, whereOperators), correctSQL);
     }
 
+    @Test
+    public void testDelete() {
+        final DefaultSQLGenerator generator = new DefaultSQLGenerator();
+        final String[] whereColumns = new String[]{"first_col", "second_col"};
+        final String[] whereOperators = new String[]{">=", "<="};
+        final String correctSQL = "DELETE FROM `test_table` WHERE `first_col` >= ? AND `second_col` <= ?";
+        assertEquals(generator.delete("test_table", whereColumns, whereOperators), correctSQL);
+    }
+
 }

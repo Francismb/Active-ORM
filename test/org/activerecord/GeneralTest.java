@@ -14,8 +14,8 @@ public class GeneralTest {
     public void test() {
         final UserModel model = new UserModel();
         model.name = "tom";
+        model.password = "This is teh super secret password";
         model.save();
-        assertEquals("user1s", "user1s");
     }
 
 }

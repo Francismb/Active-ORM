@@ -12,6 +12,6 @@ public class QueryTest {
 
     @Test
     public void testQuery() {
-        UserModel user = Query.build(UserModel.class).first();
+        //UserModel user = Query.build(UserModel.class);
     }
 }
