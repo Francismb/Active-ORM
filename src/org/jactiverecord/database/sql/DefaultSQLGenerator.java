@@ -52,7 +52,7 @@ public class DefaultSQLGenerator implements SQLGenerator {
         }
 
         // Add the from table sql
-        sql.append("FROM ").append("`").append(table).append("`").append(" ");
+        sql.append("FROM ").append('`').append(table).append('`').append(" ");
 
         // Add the where sql to the statement
         sql.append(where(whereColumns, whereOperators));
@@ -87,7 +87,7 @@ public class DefaultSQLGenerator implements SQLGenerator {
         sql.append("INSERT INTO ").append("`").append(table).append("` ");
 
         // add the columns to the sql
-        sql.append("(");
+        sql.append('(');
         for (int i = 0; i < columns.length; i++) {
             final String column = columns[i];
 
@@ -106,7 +106,7 @@ public class DefaultSQLGenerator implements SQLGenerator {
         for (int i = 0; i < columns.length; i++) {
 
             // Append column value place holder
-            sql.append("?");
+            sql.append('?');
 
             /// If there is another column after this
             // one then add ', ' to the sql
@@ -138,7 +138,7 @@ public class DefaultSQLGenerator implements SQLGenerator {
         sql.append("UPDATE ");
 
         // Append table name
-        sql.append("`").append(table).append("` ");
+        sql.append('`').append(table).append("` ");
 
         // Add the columns to the sql
         sql.append("SET ");
@@ -165,10 +165,24 @@ public class DefaultSQLGenerator implements SQLGenerator {
     }
 
     public String delete(final String table, final String[] whereColumns, final String[] whereOperators) {
+        // Throw an exception if there is not table specified
         if (table == null) {
             throw new NullPointerException("Table name cannot be null");
         }
-        return null;
+
+        // Create a string buffer
+        final StringBuilder sql = new StringBuilder();
+
+        // Append initial UPDATE sql
+        sql.append("DELETE FROM ");
+
+        // Append table name
+        sql.append('`').append(table).append('`').append(" ");
+
+        // Append where sql
+        sql.append(where(whereColumns, whereOperators));
+
+        return sql.toString().trim();
     }
 
     public String where(final String[] columns, final String[] operators) {
