@@ -25,6 +25,12 @@ public class ObjectMapping {
     protected Table table;
 
     /**
+     * A flag which when true means the record is
+     * already persisted else if not persisted is false
+     */
+    protected boolean persisted = false;
+
+    /**
      * A list of {@link FieldMapping}
      */
     protected final List<FieldMapping> mappings = new ArrayList<FieldMapping>();

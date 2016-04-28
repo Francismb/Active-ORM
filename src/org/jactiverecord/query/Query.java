@@ -18,7 +18,4 @@ public class Query<T extends ActiveRecord> {
         return new Query<T>(activeRecord);
     }
 
-    public T first() {
-        return null;
-    }
 }

@@ -2,8 +2,11 @@ package org.jactiverecord;
 
 import org.jactiverecord.mapping.FieldMapping;
 import org.jactiverecord.mapping.ObjectMapping;
+import org.jactiverecord.mapping.annotations.Column;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,9 +16,10 @@ import java.util.Map;
 public class ActiveRecord extends ObjectMapping {
 
     public boolean save() {
+        final List<FieldMapping> changes = new ArrayList<FieldMapping>();
         for(final FieldMapping mapping : mappings) {
             if (mapping.hasBeenModified()) {
-                System.out.println(mapping.getValue());
+                changes.add(mapping);
             }
         }
         return true;
