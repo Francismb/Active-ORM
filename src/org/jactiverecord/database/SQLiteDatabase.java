@@ -26,8 +26,9 @@ public class SQLiteDatabase extends Database {
 
     public Connection connect() {
         try {
+            Class.forName("org.sqlite.JDBC");
             return DriverManager.getConnection("jdbc:sqlite:" + super.configuration.address);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return connection;

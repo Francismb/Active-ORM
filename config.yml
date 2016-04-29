@@ -1,2 +1,2 @@
 connector: sqllite
-address: ./databases/test.db
+address: test.db

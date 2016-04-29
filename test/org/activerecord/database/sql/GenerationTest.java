@@ -1,6 +1,6 @@
 package org.activerecord.database.sql;
 
-import org.jactiverecord.database.sql.DefaultSQLGenerator;
+import org.jactiverecord.database.sql.DefaultSQLProducer;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
@@ -13,7 +13,7 @@ public class GenerationTest {
 
     @Test
     public void testFullSelect() {
-        final DefaultSQLGenerator generator = new DefaultSQLGenerator();
+        final DefaultSQLProducer generator = new DefaultSQLProducer();
         final String[] columns = new String[] {
                 "first_col", "second_col", "third_col"
         };
@@ -28,7 +28,7 @@ public class GenerationTest {
 
     @Test
     public void testPartialSelect() {
-        final DefaultSQLGenerator generator = new DefaultSQLGenerator();
+        final DefaultSQLProducer generator = new DefaultSQLProducer();
         final String[] columns = new String[] {
                 "first_col", "second_col", "third_col"
         };
@@ -40,7 +40,7 @@ public class GenerationTest {
 
     @Test
     public void testMinimalSelect() {
-        final DefaultSQLGenerator generator = new DefaultSQLGenerator();
+        final DefaultSQLProducer generator = new DefaultSQLProducer();
         final String[] columns = new String[] {
                 "first_col", "second_col", "third_col"
         };
@@ -50,7 +50,7 @@ public class GenerationTest {
 
     @Test
     public void testInsert() {
-        final DefaultSQLGenerator generator = new DefaultSQLGenerator();
+        final DefaultSQLProducer generator = new DefaultSQLProducer();
         final String[] columns = new String[] {
                 "first_col", "second_col", "third_col"
         };
@@ -60,7 +60,7 @@ public class GenerationTest {
 
     @Test
     public void testUpdate() {
-        final DefaultSQLGenerator generator = new DefaultSQLGenerator();
+        final DefaultSQLProducer generator = new DefaultSQLProducer();
         final String[] columns = new String[] {
                 "first_col", "second_col", "third_col"
         };
@@ -72,7 +72,7 @@ public class GenerationTest {
 
     @Test
     public void testDelete() {
-        final DefaultSQLGenerator generator = new DefaultSQLGenerator();
+        final DefaultSQLProducer generator = new DefaultSQLProducer();
         final String[] whereColumns = new String[]{"first_col", "second_col"};
         final String[] whereOperators = new String[]{">=", "<="};
         final String correctSQL = "DELETE FROM `test_table` WHERE `first_col` >= ? AND `second_col` <= ?";

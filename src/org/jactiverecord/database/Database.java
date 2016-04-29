@@ -6,7 +6,6 @@ import org.jactiverecord.database.sql.SQLProducer;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -95,13 +94,13 @@ public abstract class Database {
                 final Map<String, String> map = (Map<String, String>) data;
 
                 // If the map does not contain a specified connector throw an exception
-                if (map.containsKey("connector")) {
+                if (!map.containsKey("connector")) {
                     throw new RuntimeException("Configuration file does not contain a connector key");
                 }
                 switch (map.get("connector")) {
                     case "sqllite":
                         // If the map does not contain a location of the database then throw an exception
-                        if (map.containsKey("address")) {
+                        if (!map.containsKey("address")) {
                             throw new RuntimeException("Configuration file did not contain a address for the database");
                         }
 
