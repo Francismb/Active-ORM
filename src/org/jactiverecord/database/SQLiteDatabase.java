@@ -1,6 +1,7 @@
 package org.jactiverecord.database;
 
 import org.jactiverecord.database.configuration.SQLiteDatabaseConfiguration;
+import org.jactiverecord.database.sql.SQLLiteSQLProducer;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +21,7 @@ public class SQLiteDatabase extends Database {
      * @param configuration the database configuration object
      */
     public SQLiteDatabase(final SQLiteDatabaseConfiguration configuration) {
-        super(configuration);
+        super(configuration, new SQLLiteSQLProducer());
     }
 
     public Connection connect() {

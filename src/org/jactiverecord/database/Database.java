@@ -1,11 +1,17 @@
 package org.jactiverecord.database;
 
 import org.jactiverecord.database.configuration.DatabaseConfiguration;
+import org.jactiverecord.database.configuration.SQLiteDatabaseConfiguration;
+import org.jactiverecord.database.sql.SQLProducer;
+import org.yaml.snakeyaml.Yaml;
 
+import java.io.*;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 /**
  * Created by Francis on 9/04/16.
@@ -29,6 +35,12 @@ public abstract class Database {
     protected final DatabaseConfiguration configuration;
 
     /**
+     * The {@link SQLProducer} used to generate sql
+     * for this database.
+     */
+    public final SQLProducer sqlProducer;
+
+    /**
      * The static database instance.
      */
     private static Database instance;
@@ -38,13 +50,92 @@ public abstract class Database {
      * Connects to the database when the object is constructed.
      *
      * @param configuration the database configuration.
+     * @param sqlProducer the sql producer.
      */
-    public Database(final DatabaseConfiguration configuration) {
+    protected Database(final DatabaseConfiguration configuration, final SQLProducer sqlProducer) {
         if (configuration == null) {
-            throw new IllegalArgumentException("A Configuration is required");
+            throw new NullPointerException("A Configuration is required");
+        }
+        if (sqlProducer == null) {
+            throw new NullPointerException("A SQLProducer is required");
         }
         this.configuration = configuration;
+        this.sqlProducer = sqlProducer;
         connection = connect();
+    }
+
+    /**
+     * Loads a {@link Database} from YAML.
+     *
+     * @param file the location of the file.
+     * @return The constructed {@link Database}
+     */
+    public static Database fromYaml(final String file) {
+        return fromYaml(new File(file));
+    }
+
+    /**
+     * Loads a {@link Database} from YAML.
+     *
+     * @param file the yaml file.
+     * @return The constructed {@link Database}
+     */
+    public static Database fromYaml(final File file) {
+        // If the file does not exist throw an exception
+        if (!file.exists()) {
+            throw new IllegalArgumentException("Configuration File does not exist");
+        }
+        final Yaml yaml = new Yaml();
+        try (final InputStream input = new FileInputStream(file)) {
+            // Load the data into an object
+            final Object data = yaml.load(input);
+            if (data instanceof Map) {
+
+                // Cast the data to a map
+                final Map<String, String> map = (Map<String, String>) data;
+
+                // If the map does not contain a specified connector throw an exception
+                if (map.containsKey("connector")) {
+                    throw new RuntimeException("Configuration file does not contain a connector key");
+                }
+                switch (map.get("connector")) {
+                    case "sqllite":
+                        // If the map does not contain a location of the database then throw an exception
+                        if (map.containsKey("address")) {
+                            throw new RuntimeException("Configuration file did not contain a address for the database");
+                        }
+
+                        // Create the configuration and set the database instance
+                        final SQLiteDatabaseConfiguration configuration = new SQLiteDatabaseConfiguration(map.get("address"));
+                        Database.instance = new SQLiteDatabase(configuration);
+                        break;
+                    case "mysql":
+                        break;
+                    case "postgresql":
+                        break;
+                }
+
+                // Return the database instance
+                return Database.instance;
+            } else {
+                throw new RuntimeException("Configuration could not be cast to a map");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Gets the {@link Database} instance.
+     *
+     * @return the {@link Database} instance.
+     */
+    public static Database getInstance() {
+        if (instance == null) {
+            throw new NullPointerException("Database has not been initialized yet");
+        }
+        return instance;
     }
 
     /**
@@ -149,19 +240,5 @@ public abstract class Database {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static void setInstance(final Database database) {
-        if (database == null) {
-            throw new NullPointerException("Parameter database cannot be null");
-        }
-        instance = database;
-    }
-
-    public static Database getInstance() {
-        if (instance == null) {
-            throw new NullPointerException("Database has not been initialized yet");
-        }
-        return instance;
     }
 }

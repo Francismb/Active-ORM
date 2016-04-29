@@ -6,7 +6,7 @@ package org.jactiverecord.database.sql;
  *
  * A interface which provides functions to build basic sql queries.
  */
-public interface SQLGenerator {
+public interface SQLProducer {
 
     /**
      * Generates the appropriate sql for a select statement.

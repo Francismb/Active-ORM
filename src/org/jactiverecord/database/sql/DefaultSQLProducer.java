@@ -4,9 +4,9 @@ package org.jactiverecord.database.sql;
  * Created by Francis on 13/04/16.
  * Project Jactive-Record.
  * <p>
- * Default implementation of {@link SQLGenerator}.
+ * Default implementation of {@link SQLProducer}.
  */
-public class DefaultSQLGenerator implements SQLGenerator {
+public class DefaultSQLProducer implements SQLProducer {
 
     public String select(final String table, final String[] columns, final String[] whereColumns, final String[] whereOperators, final String[] orderColumns, final String[] orderOperators, final boolean limit) {
         // Throw an exception if there is not table specified

@@ -1,0 +1,2 @@
+connector: sqllite
+address: ./databases/test.db

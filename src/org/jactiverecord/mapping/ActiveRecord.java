@@ -1,26 +1,29 @@
 package org.jactiverecord.mapping;
 
-import org.jactiverecord.database.sql.DefaultSQLGenerator;
+import org.jactiverecord.database.Database;
+import org.jactiverecord.database.sql.DefaultSQLProducer;
+import org.jactiverecord.database.sql.SQLProducer;
 import org.jactiverecord.mapping.FieldMapping;
 import org.jactiverecord.mapping.ObjectMapping;
-import org.jactiverecord.mapping.annotations.Column;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Francis on 9/04/16.
  * Project Jactive-Record.
  */
-public class ActiveRecord extends ObjectMapping {
+public class ActiveRecord {
 
-    private final DefaultSQLGenerator generator = new DefaultSQLGenerator();
+    private final ObjectMapping mapper;
+
+    public ActiveRecord() {
+        this.mapper = new ObjectMapping(getClass());
+    }
 
     public boolean save() {
         final List<FieldMapping> modifications = new ArrayList<FieldMapping>();
-        for (final FieldMapping mapping : mappings) {
+        for (final FieldMapping mapping : mapper.mappings) {
             if (mapping.hasBeenModified()) {
                 modifications.add(mapping);
             }
@@ -32,10 +35,10 @@ public class ActiveRecord extends ObjectMapping {
         }
 
         final String sql;
-        if (persisted) {
-            sql = generator.update(table.name(), columns, new String[]{primaryKey.column.name()}, new String[]{"="});
+        if (mapper.persisted) {
+            sql = Database.getInstance().sqlProducer.update(mapper.table.name(), columns, new String[]{mapper.primaryKey.column.name()}, new String[]{"="});
         } else {
-            sql = generator.insert(table.name(), columns);
+            sql = Database.getInstance().sqlProducer.insert(mapper.table.name(), columns);
         }
 
         return true;
