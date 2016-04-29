@@ -16,23 +16,23 @@ public class FieldMapping<T> {
     /**
      * The {@link Field} that is being mapped
      */
-    protected final Field field;
+    private final Field field;
 
     /**
      * The {@link Class} that the field belongs to.
      */
-    protected final Class clazz;
+    private final Class clazz;
 
     /**
      * The instance to get the value from.
      */
-    protected final Object instance;
+    private final Object instance;
 
     /**
      * The initial value of the field to tell
      * if the field value has been changed.
      */
-    protected final T initialValue;
+    private final T initialValue;
 
     /**
      * A flag {@link PrimaryKey} to set if
@@ -58,7 +58,7 @@ public class FieldMapping<T> {
      * @param field the {@link Field} to get the value from.
      * @param instance the instance to get the value from.
      */
-    public FieldMapping(final Class clazz, final Field field, final Object instance) {
+    protected FieldMapping(final Class clazz, final Field field, final Object instance) {
         this.clazz = clazz;
         this.field = field;
         this.instance = instance;
@@ -69,7 +69,7 @@ public class FieldMapping<T> {
      * Gets the value of the field.
      * @return the value of the field.
      */
-    public T getValue() {
+    protected T getValue() {
         return (T) Reflection.getValue(clazz, field, instance);
     }
 
@@ -78,7 +78,7 @@ public class FieldMapping<T> {
      * modified by comparing it to the initial value.
      * @return true if the field has been modified else false.
      */
-    public boolean hasBeenModified() {
+    protected boolean hasBeenModified() {
         final T value = getValue();
         if (initialValue == null) {
             return value != null;
@@ -92,7 +92,7 @@ public class FieldMapping<T> {
      * @return true if the {@link PrimaryKey}
      * variable has been set else false.
      */
-    public boolean isPrimaryKey() {
+    protected boolean isPrimaryKey() {
         return primaryKey != null;
     }
 }

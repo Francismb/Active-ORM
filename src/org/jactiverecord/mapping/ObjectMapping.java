@@ -44,17 +44,17 @@ public class ObjectMapping {
      * Constructs a new {@link ObjectMapping}
      * and maps the object
      */
-    public ObjectMapping() {
+    protected ObjectMapping(final Class clazz) {
         // Set the table annotation
-        if (getClass().isAnnotationPresent(Table.class)) {
-            this.table = getClass().getAnnotation(Table.class);
+        if (clazz.isAnnotationPresent(Table.class)) {
+            this.table = (Table) clazz.getAnnotation(Table.class);
         } else {
             throw new AnnotationRequiredException("Table annotation is required on ActiveRecord");
         }
-        for (final Field field : getClass().getFields()) {
+        for (final Field field : clazz.getFields()) {
             if (field.isAnnotationPresent(Column.class)) {
                 // Create a mapping
-                final FieldMapping mapping = new FieldMapping(getClass(), field, this);
+                final FieldMapping mapping = new FieldMapping(clazz, field, this);
 
                 // Set the mappings column annotations
                 mapping.column = field.getAnnotation(Column.class);

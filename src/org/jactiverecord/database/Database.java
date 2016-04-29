@@ -37,7 +37,7 @@ public abstract class Database {
      * The {@link SQLProducer} used to generate sql
      * for this database.
      */
-    public final SQLProducer sqlProducer;
+    public final SQLProducer sql;
 
     /**
      * The static database instance.
@@ -49,17 +49,17 @@ public abstract class Database {
      * Connects to the database when the object is constructed.
      *
      * @param configuration the database configuration.
-     * @param sqlProducer the sql producer.
+     * @param sql the {@link SQLProducer}.
      */
-    protected Database(final DatabaseConfiguration configuration, final SQLProducer sqlProducer) {
+    protected Database(final DatabaseConfiguration configuration, final SQLProducer sql) {
         if (configuration == null) {
             throw new NullPointerException("A Configuration is required");
         }
-        if (sqlProducer == null) {
+        if (sql == null) {
             throw new NullPointerException("A SQLProducer is required");
         }
         this.configuration = configuration;
-        this.sqlProducer = sqlProducer;
+        this.sql = sql;
         connection = connect();
     }
 
