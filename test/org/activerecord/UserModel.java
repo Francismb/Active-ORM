@@ -21,4 +21,5 @@ public class UserModel extends ActiveRecord {
 
     @Column(name = "password")
     public String password;
+
 }

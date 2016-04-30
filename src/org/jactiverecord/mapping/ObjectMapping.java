@@ -38,13 +38,13 @@ public class ObjectMapping {
     /**
      * A list of {@link FieldMapping}
      */
-    protected final List<FieldMapping> mappings = new ArrayList<FieldMapping>();
+    protected final List<FieldMapping> mappings = new ArrayList<>();
 
     /**
      * Constructs a new {@link ObjectMapping}
      * and maps the object
      */
-    protected ObjectMapping(final Class clazz) {
+    protected ObjectMapping(final Class clazz, final Object instance) {
         // Set the table annotation
         if (clazz.isAnnotationPresent(Table.class)) {
             this.table = (Table) clazz.getAnnotation(Table.class);
@@ -54,7 +54,7 @@ public class ObjectMapping {
         for (final Field field : clazz.getFields()) {
             if (field.isAnnotationPresent(Column.class)) {
                 // Create a mapping
-                final FieldMapping mapping = new FieldMapping(clazz, field, this);
+                final FieldMapping mapping = new FieldMapping(clazz, field, instance);
 
                 // Set the mappings column annotations
                 mapping.column = field.getAnnotation(Column.class);

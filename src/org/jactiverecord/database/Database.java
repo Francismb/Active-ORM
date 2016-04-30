@@ -3,13 +3,12 @@ package org.jactiverecord.database;
 import org.jactiverecord.database.configuration.DatabaseConfiguration;
 import org.jactiverecord.database.configuration.SQLiteDatabaseConfiguration;
 import org.jactiverecord.database.sql.SQLProducer;
+import org.jactiverecord.mapping.FieldMapping;
+import org.jactiverecord.mapping.ObjectMapping;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Map;
 
 /**
@@ -139,6 +138,7 @@ public abstract class Database {
 
     /**
      * Establishes a {@link Connection} to the database.
+     *
      * @return the {@link Connection} that was created or null
      * if it failed to create a connection.
      */
@@ -146,6 +146,7 @@ public abstract class Database {
 
     /**
      * Disconnects to the database.
+     *
      * @return true if successfully disconnected else false.
      */
     public boolean disconnect() {
@@ -161,12 +162,13 @@ public abstract class Database {
     /**
      * Query's the database and returns data, if there
      * is an issue the query is rolled back.
+     *
      * @param sql the prepared statement sql.
      * @param parameters the parameters to prepare.
      * @return The result of the query or null if the query failed.
      */
     public ResultSet query(final String sql, final Object[] parameters) {
-        final PreparedStatement statement = prepare(sql, parameters);
+        final PreparedStatement statement = prepare(sql, parameters, false);
         if (statement != null) {
             try {
                 return statement.executeQuery();
@@ -184,14 +186,15 @@ public abstract class Database {
     }
 
     /**
-     * Executes a update query on the database(UPDATE, DELETE, INSERT) or
+     * Executes a write query on the database(UPDATE, DELETE, INSERT) or
      * another query that does not return anything.
+     *
      * @param sql the prepared statement sql.
      * @param parameters the parameters to prepare.
      * @return the number of rows affected in the database.
      */
     public int execute(final String sql, final Object[] parameters) {
-        final PreparedStatement statement = prepare(sql, parameters);
+        final PreparedStatement statement = prepare(sql, parameters, false);
         if (statement != null) {
             try {
                 return statement.executeUpdate();
@@ -209,19 +212,53 @@ public abstract class Database {
     }
 
     /**
+     * Executes a write query on the database(UPDATE, DELETE, INSERT) or
+     * another query that does not return anything.
+     *
+     * @param sql the prepared statement sql.
+     * @param parameters the parameters to prepare.
+     * @param primaryKey the primary key {@link FieldMapping} to set to the generated keys
+     * @return the number of rows affected in the database.
+     */
+    public int execute(final String sql, final Object[] parameters, final FieldMapping primaryKey) {
+        final PreparedStatement statement = prepare(sql, parameters, true);
+        if (statement != null) {
+            try {
+                final int result = statement.executeUpdate();
+                final ResultSet keys = statement.getGeneratedKeys();
+                if (keys.next()) {
+                    primaryKey.setValue(keys.getInt(1));
+                }
+                return result;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                try {
+                    System.out.println("Transaction has been rolled back");
+                    connection.rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Prepares a {@link PreparedStatement} with parameters.
+     *
      * @param sql the prepared statement sql.
      * @param parameters the parameters to prepare into the {@link PreparedStatement}.
+     * @param generateKeys if true then statement will return keys.
      * @return a {@link PreparedStatement}.
      */
-    public PreparedStatement prepare(final String sql, final Object[] parameters) {
+    private PreparedStatement prepare(final String sql, final Object[] parameters, boolean generateKeys) {
         try {
-            final PreparedStatement statement = connection.prepareStatement(sql);
-            if (sql.indexOf('?') == -1 || parameters.length == 0) {
+            final PreparedStatement statement = connection.prepareStatement(sql, generateKeys ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
+            if (sql.indexOf('?') == -1 || parameters == null || parameters.length == 0) {
                 return statement;
             }
-            for (int i = 0; i < parameters.length; i++) {
-                final Object value = parameters[i];
+            for (int i = 1; i < (parameters.length + 1); i++) {
+                final Object value = parameters[i - 1];
                 if (value instanceof String) {
                     statement.setString(i, (String) value);
                 } else if (value instanceof Integer) {

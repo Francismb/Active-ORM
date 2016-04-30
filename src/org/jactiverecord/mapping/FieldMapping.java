@@ -54,6 +54,7 @@ public class FieldMapping<T> {
 
     /**
      * Constructs a new {@link FieldMapping}.
+     *
      * @param clazz the {@link Class} that contains the {@link Field}.
      * @param field the {@link Field} to get the value from.
      * @param instance the instance to get the value from.
@@ -67,15 +68,26 @@ public class FieldMapping<T> {
 
     /**
      * Gets the value of the field.
+     *
      * @return the value of the field.
      */
-    protected T getValue() {
+    public T getValue() {
         return (T) Reflection.getValue(clazz, field, instance);
+    }
+
+    /**
+     * Sets the value of the field.
+     *
+     * @param value the value for the field to be set to.
+     */
+    public void setValue(final T value) {
+        Reflection.setValue(clazz, field, instance, value);
     }
 
     /**
      * Checks to see if the field has been
      * modified by comparing it to the initial value.
+     *
      * @return true if the field has been modified else false.
      */
     protected boolean hasBeenModified() {
@@ -89,10 +101,11 @@ public class FieldMapping<T> {
     /**
      * Checks to see if the {@link PrimaryKey}
      * variable has been set.
+     *
      * @return true if the {@link PrimaryKey}
      * variable has been set else false.
      */
-    protected boolean isPrimaryKey() {
+    public boolean isPrimaryKey() {
         return primaryKey != null;
     }
 }

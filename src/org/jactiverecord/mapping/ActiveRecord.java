@@ -25,7 +25,7 @@ public class ActiveRecord {
      * Constructs a new {@link ActiveRecord}.
      */
     public ActiveRecord() {
-        this.mapper = new ObjectMapping(getClass());
+        this.mapper = new ObjectMapping(getClass(), this);
     }
 
     /**
@@ -64,7 +64,7 @@ public class ActiveRecord {
         }
 
         // Execute the sql
-        final int result = Database.getInstance().execute(sql, values);
+        final int result = Database.getInstance().execute(sql, values, mapper.primaryKey);
 
         // If the sql had effect return true
         return result > 0;

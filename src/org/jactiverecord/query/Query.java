@@ -18,4 +18,5 @@ public class Query<T extends ActiveRecord> {
         return new Query<T>(activeRecord);
     }
 
+
 }

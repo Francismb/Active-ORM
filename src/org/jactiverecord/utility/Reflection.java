@@ -29,6 +29,21 @@ public class Reflection {
         return null;
     }
 
+    public static void setValue(final Class clazz, final String fieldName, final Object instance, final Object value) {
+        setValue(clazz, getField(clazz, fieldName), instance, value);
+    }
+
+    public static void setValue(final Class clazz, final Field field, final Object instance, final Object value) {
+        try {
+            if (!field.isAccessible()) {
+                field.setAccessible(true);
+            }
+            field.set(instance, value);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static Object[] getArray(final Class clazz, final Field field, final Object instance) {
         final Object object = getValue(clazz, field, instance);
         final Class type = object.getClass();
