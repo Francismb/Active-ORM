@@ -10,6 +10,8 @@ import java.lang.reflect.Field;
 /**
  * Created by Francis on 10/04/16.
  * Project Jactive-Record.
+ *
+ * Represents the mapping from a field to a database cell.
  */
 public class FieldMapping<T> {
 

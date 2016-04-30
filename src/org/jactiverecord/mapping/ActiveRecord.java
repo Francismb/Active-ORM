@@ -1,10 +1,6 @@
 package org.jactiverecord.mapping;
 
 import org.jactiverecord.database.Database;
-import org.jactiverecord.database.sql.DefaultSQLProducer;
-import org.jactiverecord.database.sql.SQLProducer;
-import org.jactiverecord.mapping.FieldMapping;
-import org.jactiverecord.mapping.ObjectMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +15,13 @@ public class ActiveRecord {
      * The {@link ObjectMapping} used to map the object.
      * Constructed in the constructor of {@link ActiveRecord}.
      */
-    private final ObjectMapping mapper;
+    private final ObjectMapping mapping;
 
     /**
      * Constructs a new {@link ActiveRecord}.
      */
     public ActiveRecord() {
-        this.mapper = new ObjectMapping(getClass(), this);
+        this.mapping = new ObjectMapping(getClass(), this);
     }
 
     /**
@@ -37,7 +33,7 @@ public class ActiveRecord {
     public boolean save() {
         // Find all the modified fields
         final List<FieldMapping> modifications = new ArrayList<>();
-        for (final FieldMapping mapping : mapper.mappings) {
+        for (final FieldMapping mapping : this.mapping.mappings) {
             if (mapping.hasBeenModified()) {
                 modifications.add(mapping);
             }
@@ -57,14 +53,14 @@ public class ActiveRecord {
 
         // Generate the sql for the statement
         final String sql;
-        if (mapper.persisted) {
-            sql = Database.getInstance().sql.update(mapper.table.name(), columns, new String[]{mapper.primaryKey.column.name()}, new String[]{"="});
+        if (mapping.persisted) {
+            sql = Database.getInstance().sql.update(mapping.table.name(), columns, new String[]{mapping.primaryKey.column.name()}, new String[]{"="});
         } else {
-            sql = Database.getInstance().sql.insert(mapper.table.name(), columns);
+            sql = Database.getInstance().sql.insert(mapping.table.name(), columns);
         }
 
         // Execute the sql
-        final int result = Database.getInstance().execute(sql, values, mapper.primaryKey);
+        final int result = Database.getInstance().execute(sql, values, mapping.primaryKey);
 
         // If the sql had effect return true
         return result > 0;

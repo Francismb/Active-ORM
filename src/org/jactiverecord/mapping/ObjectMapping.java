@@ -20,29 +20,30 @@ import java.util.List;
 public class ObjectMapping {
 
     /**
-     * The {@link Table} annotation
+     * The {@link Table} annotation.
      */
     protected Table table;
 
     /**
-     * The primary key field mapping
+     * The primary key field mapping.
      */
     protected FieldMapping primaryKey;
 
     /**
      * A flag which when true means the record is
-     * already persisted else if not persisted is false
+     * already persisted else if not persisted is false.
      */
     protected boolean persisted = false;
 
     /**
-     * A list of {@link FieldMapping}
+     * A list of {@link FieldMapping}.
      */
     protected final List<FieldMapping> mappings = new ArrayList<>();
 
     /**
-     * Constructs a new {@link ObjectMapping}
-     * and maps the object
+     * Constructs a new {@link ObjectMapping} and maps the object.
+     * @param clazz the class to map.
+     * @param instance the instance of the class to map.
      */
     protected ObjectMapping(final Class clazz, final Object instance) {
         // Set the table annotation
