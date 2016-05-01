@@ -1,6 +1,7 @@
 package org.jactiverecord.mapping;
 
 import org.jactiverecord.exceptions.AnnotationRequiredException;
+import org.jactiverecord.exceptions.DuplicatePrimaryKeyException;
 import org.jactiverecord.mapping.annotations.Column;
 import org.jactiverecord.mapping.annotations.PrimaryKey;
 import org.jactiverecord.mapping.annotations.Relationship;
@@ -14,8 +15,7 @@ import java.util.List;
  * Created by Francis on 9/04/16.
  * Project Jactive-Record.
  *
- * {@link ObjectMapping} contains the mapping from a ActiveRecord to
- * database information.
+ * Represents the mapping of a {@link ActiveRecord}
  */
 public class ObjectMapping {
 
@@ -33,12 +33,12 @@ public class ObjectMapping {
      * A flag which when true means the record is
      * already persisted else if not persisted is false.
      */
-    protected boolean persisted = false;
+    protected boolean persisted;
 
     /**
      * A list of {@link FieldMapping}.
      */
-    protected final List<FieldMapping> mappings = new ArrayList<>();
+    public final List<FieldMapping> mappings = new ArrayList<>();
 
     /**
      * Constructs a new {@link ObjectMapping} and maps the object.
@@ -62,6 +62,13 @@ public class ObjectMapping {
 
                 // Set the primary key annotation if it is present
                 if (field.isAnnotationPresent(PrimaryKey.class)) {
+
+                    // If there is already one primary key specified throw a exception
+                    if (primaryKey != null) {
+                        throw new DuplicatePrimaryKeyException("Duplicate primary keys found " + getClass().getName() + "." + primaryKey.field.getName() + " and " + getClass().getName() + "." + field.getName());
+                    }
+
+                    // Set the mappings primary key value to the primary key annotation
                     mapping.primaryKey = field.getAnnotation(PrimaryKey.class);
 
                     // Set the primary key field

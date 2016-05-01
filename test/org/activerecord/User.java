@@ -10,7 +10,7 @@ import org.jactiverecord.mapping.annotations.Table;
  * Project Jactive-Record.
  */
 @Table(name = "users")
-public class UserModel extends ActiveRecord {
+public class User extends ActiveRecord {
 
     @PrimaryKey
     @Column(name = "user_id")

@@ -8,6 +8,8 @@ import java.lang.reflect.Field;
 /**
  * Created by Francis on 30/04/16.
  * Project Jactive-Record.
+ *
+ * Represents the static mapping of a field.
  */
 public class StaticFieldMapping {
 

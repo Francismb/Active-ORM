@@ -67,6 +67,15 @@ public class ActiveRecord {
     }
 
     /**
+     * Deletes the record from the database.
+     *
+     * @return true if successful, else false.
+     */
+    public boolean destroy() {
+        return false;
+    }
+
+    /**
      * Creates a duplicate object which is not persisted.
      * It will not contain a primary key.
      *

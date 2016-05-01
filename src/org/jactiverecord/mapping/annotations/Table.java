@@ -8,6 +8,9 @@ import java.lang.annotation.Target;
 /**
  * Created by Francis on 9/04/16.
  * Project Jactive-Record.
+ *
+ * The {@link Table} annotation is required to be
+ * places on the class for each {@link org.jactiverecord.mapping.ActiveRecord}
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

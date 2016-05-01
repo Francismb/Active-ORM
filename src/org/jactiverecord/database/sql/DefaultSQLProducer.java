@@ -3,12 +3,12 @@ package org.jactiverecord.database.sql;
 /**
  * Created by Francis on 13/04/16.
  * Project Jactive-Record.
- * <p>
+ *
  * Default implementation of {@link SQLProducer}.
  */
 public class DefaultSQLProducer implements SQLProducer {
 
-    public String select(final String table, final String[] columns, final String[] whereColumns, final String[] whereOperators, final String[] orderColumns, final String[] orderOperators, final boolean limit) {
+    public String select(final String table, final String[] columns, final String[] whereColumns, final String[] whereOperators, final String[] orderColumns, final boolean limit) {
         // Throw an exception if there is not table specified
         if (table == null) {
             throw new NullPointerException("Table name must be specified");
@@ -17,11 +17,6 @@ public class DefaultSQLProducer implements SQLProducer {
         // Throw and exception if the length of whereColumns and whereOperations is different
         if (whereColumns != null && whereOperators != null && whereColumns.length != whereOperators.length) {
             throw new IllegalArgumentException("whereColumns and whereOperators need to contain the same amount of elements");
-        }
-
-        // Throw and exception if the length of orderColumns and orderOperators is different
-        if (orderColumns != null && orderOperators != null && orderColumns.length != orderOperators.length) {
-            throw new IllegalArgumentException("orderColumns and orderOperators need to contain the same amount of elements");
         }
 
         // Create a string buffer
@@ -58,7 +53,7 @@ public class DefaultSQLProducer implements SQLProducer {
         sql.append(where(whereColumns, whereOperators));
 
         // Add the order sql to the statement
-        sql.append(order(orderColumns, orderOperators));
+        sql.append(order(orderColumns));
 
         // If the limit is set then add the limit sql
         if (limit) {
@@ -220,15 +215,10 @@ public class DefaultSQLProducer implements SQLProducer {
         return sql.toString();
     }
 
-    public String order(final String[] columns, final String[] operators) {
+    public String order(final String[] columns) {
         // If columns or operators is not specified just return an empty string.
-        if ((columns == null || operators == null) || columns.length == 0 && operators.length == 0) {
+        if (columns == null || columns.length == 0) {
             return "";
-        }
-
-        // If the length of columns or operators is different throw an exception
-        if (columns.length != operators.length) {
-            throw new IllegalArgumentException("column length needs to be the same as the operator length");
         }
 
         // The order statement sql
@@ -237,10 +227,9 @@ public class DefaultSQLProducer implements SQLProducer {
         sql.append("ORDER BY ");
         for (int i = 0; i < columns.length; i++) {
             final String column = columns[i];
-            final String operator = operators[i];
 
             // Add the condition to the sql
-            sql.append('`').append(column).append('`').append(" ").append(operator);
+            sql.append('`').append(column).append('`').append(" ?");
 
             // If there is another order after this
             // one add a ', ' to the sql

@@ -3,6 +3,8 @@ package org.jactiverecord.database.configuration;
 /**
  * Created by Francis on 9/04/16.
  * Project Jactive-Record.
+ *
+ * A PostgreSQL {@link DatabaseConfiguration} implementation.
  */
 public class PostgreSQLDatabaseConfiguration extends DatabaseConfiguration {
 

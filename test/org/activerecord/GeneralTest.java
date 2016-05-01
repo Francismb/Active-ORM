@@ -15,9 +15,9 @@ public class GeneralTest {
     public void test() {
         final Database database = Database.fromYaml("config.yml");
         database.execute("DROP TABLE users", null);
-        database.execute("CREATE TABLE users(id int, username varchar(255), password varchar(30))", null);
+        database.execute("CREATE TABLE users(user_id int, username varchar(255), password varchar(30))", null);
 
-        final UserModel model = new UserModel();
+        final User model = new User();
         model.name = "tom";
         model.password = "This is teh super secret password";
         System.out.println(model.save());

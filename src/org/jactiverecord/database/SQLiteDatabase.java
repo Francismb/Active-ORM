@@ -16,16 +16,18 @@ import java.sql.SQLException;
 public class SQLiteDatabase extends Database {
 
     /**
-     * Constructs a new {@link SQLiteDatabase}
+     * Constructs a new {@link SQLiteDatabase}.
      *
-     * @param configuration the database configuration object
+     * @param configuration the database configuration object.
      */
     public SQLiteDatabase(final SQLiteDatabaseConfiguration configuration) {
         super(configuration, new SQLLiteSQLProducer());
+
     }
 
     public Connection connect() {
         try {
+            // Load the SQLite driver class
             Class.forName("org.sqlite.JDBC");
             return DriverManager.getConnection("jdbc:sqlite:" + super.configuration.address);
         } catch (SQLException | ClassNotFoundException e) {

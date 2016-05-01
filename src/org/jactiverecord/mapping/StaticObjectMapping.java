@@ -1,5 +1,6 @@
 package org.jactiverecord.mapping;
 
+import org.jactiverecord.exceptions.AnnotationRequiredException;
 import org.jactiverecord.mapping.annotations.Column;
 import org.jactiverecord.mapping.annotations.PrimaryKey;
 import org.jactiverecord.mapping.annotations.Relationship;
@@ -12,6 +13,8 @@ import java.util.List;
 /**
  * Created by Francis on 30/04/16.
  * Project Jactive-Record.
+ *
+ * Represents the static mapping of a {@link ActiveRecord}
  */
 public class StaticObjectMapping {
 
@@ -30,6 +33,12 @@ public class StaticObjectMapping {
      * @param clazz the class to map.
      */
     public StaticObjectMapping(final Class clazz) {
+        // Set the table annotation
+        if (clazz.isAnnotationPresent(Table.class)) {
+            this.table = (Table) clazz.getAnnotation(Table.class);
+        } else {
+            throw new AnnotationRequiredException("Table annotation is required on ActiveRecord");
+        }
         for (final Field field : clazz.getFields()) {
             if (field.isAnnotationPresent(Column.class)) {
                 // Create a mapping

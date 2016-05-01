@@ -11,48 +11,48 @@ import java.lang.reflect.Field;
  * Created by Francis on 10/04/16.
  * Project Jactive-Record.
  *
- * Represents the mapping from a field to a database cell.
+ * Represents the mapping of a field.
  */
 public class FieldMapping<T> {
 
     /**
-     * The {@link Field} that is being mapped
+     * The {@link Field} that is being mapped.
      */
-    private final Field field;
+    public final Field field;
 
     /**
      * The {@link Class} that the field belongs to.
      */
-    private final Class clazz;
+    public final Class clazz;
 
     /**
      * The instance to get the value from.
      */
-    private final Object instance;
+    public final Object instance;
 
     /**
      * The initial value of the field to tell
      * if the field value has been changed.
      */
-    private final T initialValue;
+    public T initialValue;
 
     /**
-     * A flag {@link PrimaryKey} to set if
-     * this {@link FieldMapping} is a primary key.
+     * A flag to determine if this {@link FieldMapping}
+     * is a primary key.
      */
-    protected PrimaryKey primaryKey = null;
+    public PrimaryKey primaryKey = null;
 
     /**
      * The {@link Column} annotation associated
      * with this field.
      */
-    protected Column column = null;
+    public Column column = null;
 
     /**
      * The {@link Relationship} of this field
      * if there is one.
      */
-    protected Relationship relationship = null;
+    public Relationship relationship = null;
 
     /**
      * Constructs a new {@link FieldMapping}.
@@ -107,7 +107,7 @@ public class FieldMapping<T> {
      * @return true if the {@link PrimaryKey}
      * variable has been set else false.
      */
-    public boolean isPrimaryKey() {
+    protected boolean isPrimaryKey() {
         return primaryKey != null;
     }
 }

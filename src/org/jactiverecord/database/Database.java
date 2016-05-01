@@ -2,13 +2,15 @@ package org.jactiverecord.database;
 
 import org.jactiverecord.database.configuration.DatabaseConfiguration;
 import org.jactiverecord.database.configuration.SQLiteDatabaseConfiguration;
+import org.jactiverecord.database.datahandler.*;
 import org.jactiverecord.database.sql.SQLProducer;
+import org.jactiverecord.exceptions.UnsupportedDataTypeException;
 import org.jactiverecord.mapping.FieldMapping;
-import org.jactiverecord.mapping.ObjectMapping;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,6 +20,8 @@ import java.util.Map;
  * The {@link Database} object has the ability to execute
  * prepared statements on the database, it also contains the
  * database configuration and the connection to the database.
+ *
+ * Must be construced using the fromYaml static function.
  */
 public abstract class Database {
 
@@ -39,9 +43,38 @@ public abstract class Database {
     public final SQLProducer sql;
 
     /**
+     * Data handlers used when converting class field values
+     * to database data types.
+     */
+    public final Map<Class, Handler> handlers = new HashMap<Class, Handler>() {
+        {
+            put(Integer.class, new IntegerHandler());
+            put(int.class, new IntegerHandler());
+            put(String.class, new StringHandler());
+            put(Boolean.class, new BooleanHandler());
+            put(boolean.class, new BooleanHandler());
+            put(Byte.class, new ByteHandler());
+            put(byte.class, new ByteHandler());
+            put(Date.class, new DateHandler());
+            put(Double.class, new DoubleHandler());
+            put(double.class, new DoubleHandler());
+            put(Float.class, new FloatHandler());
+            put(float.class, new FloatHandler());
+            put(Long.class, new LongHandler());
+            put(long.class, new LongHandler());
+            put(Short.class, new ShortHandler());
+            put(short.class, new ShortHandler());
+            put(Time.class, new TimeHandler());
+            put(Timestamp.class, new TimeStampHandler());
+        }
+    };
+
+    /**
      * The static database instance.
      */
     private static Database instance;
+
+
 
     /**
      * Constructs a new {@link Database}.
@@ -63,20 +96,20 @@ public abstract class Database {
     }
 
     /**
-     * Loads a {@link Database} from YAML.
+     * Constructs a {@link Database} from YAML.
      *
      * @param file the location of the file.
-     * @return The constructed {@link Database}
+     * @return The constructed {@link Database}.
      */
     public static Database fromYaml(final String file) {
         return fromYaml(new File(file));
     }
 
     /**
-     * Loads a {@link Database} from YAML.
+     * Constructs a {@link Database} from YAML.
      *
      * @param file the yaml file.
-     * @return The constructed {@link Database}
+     * @return The constructed {@link Database}.
      */
     public static Database fromYaml(final File file) {
         // If the file does not exist throw an exception
@@ -217,7 +250,7 @@ public abstract class Database {
      *
      * @param sql the prepared statement sql.
      * @param parameters the parameters to prepare.
-     * @param primaryKey the primary key {@link FieldMapping} to set to the generated keys
+     * @param primaryKey the primary key {@link FieldMapping} to set to the generated keys.
      * @return the number of rows affected in the database.
      */
     public int execute(final String sql, final Object[] parameters, final FieldMapping primaryKey) {
@@ -259,16 +292,10 @@ public abstract class Database {
             }
             for (int i = 1; i < (parameters.length + 1); i++) {
                 final Object value = parameters[i - 1];
-                if (value instanceof String) {
-                    statement.setString(i, (String) value);
-                } else if (value instanceof Integer) {
-                    statement.setInt(i, (Integer) value);
-                } else if (value instanceof Float) {
-                    statement.setFloat(i, (Float) value);
-                } else if (value instanceof Short) {
-                    statement.setShort(i, (Short) value);
-                } else if (value instanceof Byte) {
-                    statement.setByte(i, (Byte) value);
+                if (handlers.containsKey(value.getClass())) {
+                    handlers.get(value.getClass()).set(i, value, statement);
+                } else {
+                    throw new UnsupportedDataTypeException(value.getClass().getName());
                 }
             }
             return statement;
