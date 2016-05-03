@@ -11,6 +11,7 @@ import org.jactiverecord.utility.Reflection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -147,13 +148,13 @@ public class Query<T extends ActiveRecord> {
         }
 
         // Generate the order directions
-        final Object[] orderDirections = new Object[orders.size()];
+        final String[] orderDirections = new String[orders.size()];
         for (int i = 0; i < orderDirections.length; i++) {
             orderDirections[i] = orders.get(i).direction;
         }
 
         // Calculate the parameter length
-        int parameterLength = whereValues.length + orderDirections.length;
+        int parameterLength = whereValues.length;
 
         // If limit isn't -1 then add one to the parameter length
         if (limit != -1) {
@@ -163,7 +164,6 @@ public class Query<T extends ActiveRecord> {
         // Add the orderDirections and whereValues together
         final Object[] parameters = new Object[parameterLength];
         System.arraycopy(whereValues, 0, parameters, 0, whereValues.length);
-        System.arraycopy(orderDirections, 0, parameters, whereValues.length, orderDirections.length);
 
         // If limit is not -1 then add the limit to the parameters
         if (limit != -1) {
@@ -174,7 +174,7 @@ public class Query<T extends ActiveRecord> {
         final Database database = Database.getInstance();
 
         // Generate the sql
-        final String sql = database.sql.select(mapping.table.name(), null, whereColumns, whereOperators, orderColumns, limit != -1);
+        final String sql = database.sql.select(mapping.table.name(), null, whereColumns, whereOperators, orderColumns, orderDirections, limit != -1);
 
         // Execute the query
         final ResultSet resultSet = database.query(sql, parameters);
@@ -251,25 +251,24 @@ public class Query<T extends ActiveRecord> {
         }
 
         // Generate the order directions
-        final Object[] orderDirections = new Object[orders.size()];
+        final String[] orderDirections = new String[orders.size()];
         for (int i = 0; i < orderDirections.length; i++) {
             orderDirections[i] = orders.get(i).direction;
         }
 
         // Calculate the parameter length
-        int parameterLength = whereValues.length + orderDirections.length + 1;
+        int parameterLength = whereValues.length + 1;
 
         // Add the orderDirections and whereValues together
         final Object[] parameters = new Object[parameterLength];
         System.arraycopy(whereValues, 0, parameters, 0, whereValues.length);
-        System.arraycopy(orderDirections, 0, parameters, whereValues.length, orderDirections.length);
         parameters[parameterLength - 1] = limit;
 
         // Get the database
         final Database database = Database.getInstance();
 
         // Generate the sql
-        final String sql = database.sql.select(mapping.table.name(), null, whereColumns, whereOperators, orderColumns, limit != -1);
+        final String sql = database.sql.select(mapping.table.name(), null, whereColumns, whereOperators, orderColumns, orderDirections, limit != -1);
 
         // Execute the query
         final ResultSet resultSet = database.query(sql, parameters);
@@ -314,7 +313,32 @@ public class Query<T extends ActiveRecord> {
      * @return the number of records deleted.
      */
     public int destroy() {
-        return 1;
+        // Generate the where columns string array
+        final String[] whereColumns = new String[conditions.size()];
+        for (int i = 0; i < whereColumns.length; i++) {
+            whereColumns[i] = conditions.get(i).column;
+        }
+
+        // Generate the where operator string array
+        final String[] whereOperators = new String[conditions.size()];
+        for (int i = 0; i < whereOperators.length; i++) {
+            whereOperators[i] = conditions.get(i).operator;
+        }
+
+        // Generate the where value string array
+        final Object[] whereValues = new Object[conditions.size()];
+        for (int i = 0; i < whereValues.length; i++) {
+            whereValues[i] = conditions.get(i).value;
+        }
+
+        // Get the database
+        final Database database = Database.getInstance();
+
+        // Generate the sql
+        final String sql = database.sql.delete(mapping.table.name(), whereColumns, whereOperators);
+
+        // Execute the query and return the amount of records deleted
+        return database.execute(sql, whereValues);
     }
 
 }

@@ -16,10 +16,11 @@ public interface SQLProducer {
      * @param whereColumns the column names used in the where statement.
      * @param whereOperators a array of where operators(=, >, <, >=, <=) used in the where statement.
      * @param orderColumns the column names used to order the results.
+     * @param orderOperators the order operators(ASC, DESC) used to order the results.
      * @param limit limit the results.
      * @return the appropriate sql for a select statement.
      */
-    public String select(final String table, final String[] columns, final String[] whereColumns, final String[] whereOperators, final String[] orderColumns, final boolean limit);
+    public String select(final String table, final String[] columns, final String[] whereColumns, final String[] whereOperators, final String[] orderColumns, final String[] orderOperators, final boolean limit);
 
     /**
      * Generates the appropriate sql for a insert statement.
@@ -64,8 +65,9 @@ public interface SQLProducer {
      * Generates the 'ORDER' part of a sql statement.
      *
      * @param columns a array of column names used in the order statement.
+     * @param operators a array of operators(ASC, DESC) used in the order statement.
      * @return The order sql to be inserted into a larger statement
      */
-    public String order(final String[] columns);
+    public String order(final String[] columns, final String[] operators);
 
 }

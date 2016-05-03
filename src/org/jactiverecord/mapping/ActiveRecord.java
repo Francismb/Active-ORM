@@ -2,6 +2,7 @@ package org.jactiverecord.mapping;
 
 import org.jactiverecord.database.Database;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,19 +52,19 @@ public class ActiveRecord {
             values[i] = modifications.get(i).getValue();
         }
 
+        // Get the database instance
+        final Database database = Database.getInstance();
+
         // Generate the sql for the statement
         final String sql;
         if (mapping.persisted) {
-            sql = Database.getInstance().sql.update(mapping.table.name(), columns, new String[]{mapping.primaryKey.column.name()}, new String[]{"="});
+            sql = database.sql.update(mapping.table.name(), columns, new String[]{mapping.primaryKey.column.name()}, new String[]{"="});
         } else {
-            sql = Database.getInstance().sql.insert(mapping.table.name(), columns);
+            sql = database.sql.insert(mapping.table.name(), columns);
         }
 
-        // Execute the sql
-        final int result = Database.getInstance().execute(sql, values, mapping.primaryKey);
-
-        // If the sql had effect return true
-        return result > 0;
+        // Execute the sql and return the amount of records modified, normally one.
+        return database.execute(sql, values, mapping.primaryKey) > 0;
     }
 
     /**
@@ -72,22 +73,22 @@ public class ActiveRecord {
      * @return true if successful, else false.
      */
     public boolean destroy() {
-        return false;
-    }
+        // Create an array which contains the primary key column name
+        final String[] columns = new String[]{mapping.primaryKey.column.name()};
 
-    /**
-     * Creates a duplicate object which is not persisted.
-     * It will not contain a primary key.
-     *
-     * @return true if successfully duplicated else false.
-     */
-    public boolean duplicate() {
-        try {
-            final Object clone = this.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+        // Create an array which contains the operators for the column to value comparison
+        final String[] operators = new String[]{"="};
 
+        // Create an array which contains the primary key value
+        final Object[] values = new Object[]{mapping.primaryKey.getValue()};
+
+        // Get the database instance
+        final Database database = Database.getInstance();
+
+        // Generate the sql
+        final String sql = database.sql.delete(mapping.table.name(), columns, operators);
+
+        // Execute the sql and return the amount of records modified, normally one.
+        return database.execute(sql, values) > 0;
+    }
 }

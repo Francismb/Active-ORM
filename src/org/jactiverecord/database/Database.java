@@ -12,6 +12,8 @@ import java.io.*;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Francis on 9/04/16.
@@ -28,7 +30,7 @@ public abstract class Database {
     /**
      * The connection to the database if there is one.
      */
-    protected final Connection connection;
+    protected Connection connection;
 
     /**
      * The database configuration object which contains
@@ -200,7 +202,7 @@ public abstract class Database {
      * @param parameters the parameters to prepare.
      * @return The result of the query or null if the query failed.
      */
-    public ResultSet query(final String sql, final Object[] parameters) {
+    public synchronized ResultSet query(final String sql, final Object[] parameters) {
         final PreparedStatement statement = prepare(sql, parameters, false);
         if (statement != null) {
             try {
@@ -226,7 +228,7 @@ public abstract class Database {
      * @param parameters the parameters to prepare.
      * @return the number of rows affected in the database.
      */
-    public int execute(final String sql, final Object[] parameters) {
+    public synchronized int execute(final String sql, final Object[] parameters) {
         final PreparedStatement statement = prepare(sql, parameters, false);
         if (statement != null) {
             try {
@@ -253,7 +255,7 @@ public abstract class Database {
      * @param primaryKey the primary key {@link FieldMapping} to set to the generated keys.
      * @return the number of rows affected in the database.
      */
-    public int execute(final String sql, final Object[] parameters, final FieldMapping primaryKey) {
+    public synchronized int execute(final String sql, final Object[] parameters, final FieldMapping primaryKey) {
         final PreparedStatement statement = prepare(sql, parameters, true);
         if (statement != null) {
             try {

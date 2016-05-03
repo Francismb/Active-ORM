@@ -5,6 +5,7 @@ import org.jactiverecord.database.sql.SQLLiteSQLProducer;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -29,11 +30,27 @@ public class SQLiteDatabase extends Database {
         try {
             // Load the SQLite driver class
             Class.forName("org.sqlite.JDBC");
-            return DriverManager.getConnection("jdbc:sqlite:" + super.configuration.address);
+            connection = DriverManager.getConnection("jdbc:sqlite:" + super.configuration.address);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return connection;
     }
 
+    /**
+     * Refreshes the connection when dropping a table.
+     */
+    public synchronized int execute(final String sql, final Object[] parameters) {
+        if (sql.toLowerCase().indexOf("drop") == 0) {
+            int result = 0;
+            try {
+                disconnect();
+                connect();
+                result = super.execute(sql, parameters);
+            } finally {
+                return result;
+            }
+        }
+        return super.execute(sql, parameters);
+    }
 }

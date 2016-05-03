@@ -20,9 +20,10 @@ public class GenerationTest {
         final String[] whereColumns = new String[]{"condition_col_1", "condition_col_2"};
         final String[] whereOperators = new String[]{"=", ">"};
         final String[] orderColumns = new String[]{"first_col", "second_col"};
+        final String[] orderOperators = new String[]{"ASC", "DESC"};
 
-        final String correctSQL = "SELECT `first_col`, `second_col`, `third_col` FROM `test_table` WHERE `condition_col_1` = ? AND `condition_col_2` > ? ORDER BY `first_col` ?, `second_col` ? LIMIT ?";
-        assertEquals(generator.select("test_table", columns, whereColumns, whereOperators, orderColumns, true), correctSQL);
+        final String correctSQL = "SELECT `first_col`, `second_col`, `third_col` FROM `test_table` WHERE `condition_col_1` = ? AND `condition_col_2` > ? ORDER BY `first_col` ASC, `second_col` DESC LIMIT ?";
+        assertEquals(generator.select("test_table", columns, whereColumns, whereOperators, orderColumns, orderOperators, true), correctSQL);
     }
 
     @Test
@@ -34,7 +35,7 @@ public class GenerationTest {
         final String[] whereColumns = new String[]{"condition_col_1", "condition_col_2"};
         final String[] whereOperators = new String[]{"=", ">"};
         final String correctSQL = "SELECT `first_col`, `second_col`, `third_col` FROM `test_table` WHERE `condition_col_1` = ? AND `condition_col_2` > ? LIMIT ?";
-        assertEquals(generator.select("test_table", columns, whereColumns, whereOperators, null, true), correctSQL);
+        assertEquals(generator.select("test_table", columns, whereColumns, whereOperators, null, null, true), correctSQL);
     }
 
     @Test
@@ -44,7 +45,7 @@ public class GenerationTest {
                 "first_col", "second_col", "third_col"
         };
         final String correctSQL = "SELECT `first_col`, `second_col`, `third_col` FROM `test_table` LIMIT ?";
-        assertEquals(generator.select("test_table", columns, null, null, null, true), correctSQL);
+        assertEquals(generator.select("test_table", columns, null, null, null, null, true), correctSQL);
     }
 
     @Test

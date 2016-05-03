@@ -5,7 +5,7 @@ import org.jactiverecord.database.Database;
 import org.jactiverecord.query.Query;
 import org.junit.Test;
 
-import java.util.List;
+import static junit.framework.TestCase.assertEquals;
 
 /**
  * Created by Francis on 28/04/16.
@@ -15,9 +15,18 @@ public class QueryTest {
 
     @Test
     public void testQuery() {
-        Database.fromYaml("config.yml");
+        final Database database = Database.fromYaml("config.yml");
+        database.execute("CREATE TABLE users(user_id INTEGER PRIMARY KEY, username TEXT, password TEXT)", null);
 
-        final User user = Query.build(User.class).first();
-        System.out.println(user.password);
+        final User tom = new User();
+        tom.name = "Tom";
+        tom.save();
+
+        assertEquals("Tom", Query.build(User.class).where("username").equalTo("Tom").first().name);
+        assertEquals(null, Query.build(User.class).where("username").equalTo("Chimp").first());
+
+        tom.destroy();
+
+        database.execute("DROP TABLE users", null);
     }
 }
