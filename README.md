@@ -1,2 +1,2 @@
-# Jactive-Record
-Jactive Record is a java active record implementation which support SQLite, Postgresql and MySQL.
+# ActiveORM
+ActiveORM is a java active record implementation which support SQLite, Postgresql and MySQL.
