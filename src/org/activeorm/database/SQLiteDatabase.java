@@ -22,7 +22,6 @@ public class SQLiteDatabase extends Database {
      */
     public SQLiteDatabase(final SQLiteDatabaseConfiguration configuration) {
         super(configuration, new SQLLiteSQLProducer());
-
     }
 
     public Connection connect() {
@@ -41,14 +40,9 @@ public class SQLiteDatabase extends Database {
      */
     public synchronized int execute(final String sql, final Object[] parameters) {
         if (sql.toLowerCase().indexOf("drop") == 0) {
-            int result = 0;
-            try {
-                disconnect();
-                connect();
-                result = super.execute(sql, parameters);
-            } finally {
-                return result;
-            }
+            disconnect();
+            connect();
+            return super.execute(sql, parameters);
         }
         return super.execute(sql, parameters);
     }

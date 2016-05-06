@@ -15,6 +15,7 @@ public class ActiveRecordTest {
     @Test
     public void testSave() {
         final Database database = Database.fromYaml("./config.yml");
+
         database.execute("CREATE TABLE users(user_id INTEGER PRIMARY KEY, username TEXT, password TEXT)", null);
 
         final User user = new User();
@@ -23,5 +24,7 @@ public class ActiveRecordTest {
         assertTrue(user.destroy());
 
         database.execute("DROP TABLE users", null);
+
+        database.disconnect();
     }
 }

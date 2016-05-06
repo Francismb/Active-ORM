@@ -16,11 +16,11 @@ import java.util.Map;
 /**
  * Created by Francis on 9/04/16.
  * Project Jactive-Record.
- *
+ * <p>
  * The {@link Database} object has the ability to execute
  * prepared statements on the database, it also contains the
  * database configuration and the connection to the database.
- *
+ * <p>
  * Must be construced using the fromYaml static function.
  */
 public abstract class Database {
@@ -75,13 +75,12 @@ public abstract class Database {
     private static Database instance;
 
 
-
     /**
      * Constructs a new {@link Database}.
      * Connects to the database when the object is constructed.
      *
      * @param configuration the database configuration.
-     * @param sql the {@link SQLProducer}.
+     * @param sql           the {@link SQLProducer}.
      */
     protected Database(final DatabaseConfiguration configuration, final SQLProducer sql) {
         if (configuration == null) {
@@ -196,7 +195,7 @@ public abstract class Database {
      * Query's the database and returns data, if there
      * is an issue the query is rolled back.
      *
-     * @param sql the prepared statement sql.
+     * @param sql        the prepared statement sql.
      * @param parameters the parameters to prepare.
      * @return The result of the query or null if the query failed.
      */
@@ -222,7 +221,7 @@ public abstract class Database {
      * Executes a write query on the database(UPDATE, DELETE, INSERT) or
      * another query that does not return anything.
      *
-     * @param sql the prepared statement sql.
+     * @param sql        the prepared statement sql.
      * @param parameters the parameters to prepare.
      * @return the number of rows affected in the database.
      */
@@ -248,7 +247,7 @@ public abstract class Database {
      * Executes a write query on the database(UPDATE, DELETE, INSERT) or
      * another query that does not return anything.
      *
-     * @param sql the prepared statement sql.
+     * @param sql        the prepared statement sql.
      * @param parameters the parameters to prepare.
      * @param primaryKey the primary key {@link FieldMapping} to set to the generated keys.
      * @return the number of rows affected in the database.
@@ -279,8 +278,8 @@ public abstract class Database {
     /**
      * Prepares a {@link PreparedStatement} with parameters.
      *
-     * @param sql the prepared statement sql.
-     * @param parameters the parameters to prepare into the {@link PreparedStatement}.
+     * @param sql          the prepared statement sql.
+     * @param parameters   the parameters to prepare into the {@link PreparedStatement}.
      * @param generateKeys if true then statement will return keys.
      * @return a {@link PreparedStatement}.
      */
