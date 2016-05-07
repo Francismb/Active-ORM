@@ -1,4 +1,4 @@
-[logo]: https://www.dropbox.com/s/fip95qrdcg0yhm5/small-logo.png?dl=1 "Logo"
+[logo]: https://raw.githubusercontent.com/frazboyz/Active-ORM/development/logo.png "Logo"
 
 [![Build Status](https://travis-ci.org/frazboyz/Active-ORM.svg?branch=master)](https://travis-ci.org/frazboyz/Active-ORM)
 
