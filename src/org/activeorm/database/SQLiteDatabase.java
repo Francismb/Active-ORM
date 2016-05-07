@@ -1,7 +1,7 @@
 package org.activeorm.database;
 
 import org.activeorm.database.configuration.SQLiteDatabaseConfiguration;
-import org.activeorm.database.sql.SQLLiteSQLProducer;
+import org.activeorm.database.sql.DefaultSQLProducer;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,7 +21,7 @@ public class SQLiteDatabase extends Database {
      * @param configuration the database configuration object.
      */
     public SQLiteDatabase(final SQLiteDatabaseConfiguration configuration) {
-        super(configuration, new SQLLiteSQLProducer());
+        super(configuration, new DefaultSQLProducer());
     }
 
     public Connection connect() {

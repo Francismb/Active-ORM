@@ -14,7 +14,7 @@ public class QueryTest {
 
     @Test
     public void testQuery() {
-        final Database database = Database.fromYaml("config.yml");
+        final Database database = Database.fromYaml("sqllite-config.yml");
         database.execute("CREATE TABLE users(user_id INTEGER PRIMARY KEY, username TEXT, password TEXT)", null);
 
         final User tom = new User();

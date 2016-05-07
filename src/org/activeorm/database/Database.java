@@ -1,6 +1,7 @@
 package org.activeorm.database;
 
 import org.activeorm.database.configuration.DatabaseConfiguration;
+import org.activeorm.database.configuration.H2DatabaseConfiguration;
 import org.activeorm.database.configuration.SQLiteDatabaseConfiguration;
 import org.activeorm.database.datahandler.*;
 import org.activeorm.database.sql.SQLProducer;
@@ -95,6 +96,17 @@ public abstract class Database {
     }
 
     /**
+     * Sets the static database instance to the one provided.
+     *
+     * @param database the {@link Database} to set the instance to.
+     * @return The database passed in.
+     */
+    public static Database fromInstance(final Database database) {
+        Database.instance = database;
+        return database;
+    }
+
+    /**
      * Constructs a {@link Database} from YAML.
      *
      * @param file the location of the file.
@@ -135,9 +147,17 @@ public abstract class Database {
                             throw new RuntimeException("Configuration file did not contain a address for the database");
                         }
 
+                        // Get the data
+                        final String address = map.get("address");
+
                         // Create the configuration and set the database instance
-                        final SQLiteDatabaseConfiguration configuration = new SQLiteDatabaseConfiguration(map.get("address"));
-                        Database.instance = new SQLiteDatabase(configuration);
+                        final SQLiteDatabaseConfiguration sqliteConfiguration = new SQLiteDatabaseConfiguration(address);
+                        Database.instance = new SQLiteDatabase(sqliteConfiguration);
+                        break;
+                    case "h2":
+                    case "h2database":
+                        // Create the configuration and set the database instance
+                        Database.instance = new H2Database();
                         break;
                     case "mysql":
                         break;
@@ -229,7 +249,9 @@ public abstract class Database {
         final PreparedStatement statement = prepare(sql, parameters, false);
         if (statement != null) {
             try {
-                return statement.executeUpdate();
+                final int result = statement.executeUpdate();
+                statement.close();
+                return result;
             } catch (SQLException e) {
                 e.printStackTrace();
                 try {
@@ -261,6 +283,7 @@ public abstract class Database {
                 if (keys.next()) {
                     primaryKey.setValue(keys.getInt(1));
                 }
+                statement.close();
                 return result;
             } catch (SQLException e) {
                 e.printStackTrace();

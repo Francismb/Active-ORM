@@ -7,6 +7,7 @@
     <artifactId>Jactive-Record</artifactId>
     <packaging>jar</packaging>
     <version>0.01</version>
+    <name>Jactive Record</name>
     <build>
         <plugins>
             <plugin>
@@ -19,7 +20,6 @@
             </plugin>
         </plugins>
     </build>
-    <name>Jactive Record</name>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -33,9 +33,15 @@
             <version>3.7.2</version>
         </dependency>
         <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.191</version>
+        </dependency>
+        <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.17</version>
         </dependency>
+
     </dependencies>
 </project>
