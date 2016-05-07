@@ -266,7 +266,10 @@ public abstract class Database {
         final PreparedStatement statement = prepare(sql, parameters, false);
         if (statement != null) {
             try {
-                return statement.executeQuery();
+                final ResultSet result = statement.executeQuery();
+                result.close();
+                connection.commit();
+                return result;
             } catch (SQLException e) {
                 e.printStackTrace();
                 attemptRollback();
