@@ -34,16 +34,4 @@ public class SQLiteDatabase extends Database {
         }
         return connection;
     }
-
-    /**
-     * Refreshes the connection when dropping a table.
-     */
-    public synchronized int execute(final String sql, final Object[] parameters) {
-        if (sql.toLowerCase().indexOf("drop") == 0) {
-            disconnect();
-            connect();
-            return super.execute(sql, parameters);
-        }
-        return super.execute(sql, parameters);
-    }
 }

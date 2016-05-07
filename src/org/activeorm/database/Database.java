@@ -2,26 +2,47 @@ package org.activeorm.database;
 
 import org.activeorm.database.configuration.DatabaseConfiguration;
 import org.activeorm.database.configuration.SQLiteDatabaseConfiguration;
-import org.activeorm.database.datahandler.*;
+import org.activeorm.database.datahandler.BooleanHandler;
+import org.activeorm.database.datahandler.ByteHandler;
+import org.activeorm.database.datahandler.DateHandler;
+import org.activeorm.database.datahandler.DoubleHandler;
+import org.activeorm.database.datahandler.FloatHandler;
+import org.activeorm.database.datahandler.Handler;
+import org.activeorm.database.datahandler.IntegerHandler;
+import org.activeorm.database.datahandler.LongHandler;
+import org.activeorm.database.datahandler.ShortHandler;
+import org.activeorm.database.datahandler.StringHandler;
+import org.activeorm.database.datahandler.TimeHandler;
+import org.activeorm.database.datahandler.TimeStampHandler;
 import org.activeorm.database.sql.SQLProducer;
 import org.activeorm.exceptions.UnsupportedDataTypeException;
 import org.activeorm.mapping.FieldMapping;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.*;
-import java.sql.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by Francis on 9/04/16.
  * Project Jactive-Record.
- * <p>
+ * <p/>
  * The {@link Database} object has the ability to execute
  * prepared statements on the database, it also contains the
  * database configuration and the connection to the database.
- * <p>
- * Must be construced using the fromYaml static function.
+ * <p/>
+ * Must be constructed using the fromYaml static function.
  */
 public abstract class Database {
 
@@ -91,7 +112,32 @@ public abstract class Database {
         }
         this.configuration = configuration;
         this.sql = sql;
-        connection = connect();
+        this.connection = setupConnection();
+    }
+
+    /**
+     * Attempts to setup the proper details for the connection. This will
+     * set the transaction mode to explicit, requiring all transactions to
+     * be manually committed.
+     *
+     * @throws java.lang.IllegalStateException if the result from
+     * {@link Database#connect()} returned <code>null</code>.
+     */
+    private Connection setupConnection() {
+        final Connection connection = connect();
+        if(connection == null) {
+            // not sure if this is the appropriate way to handle the
+            // case where Database#connect returns null.
+            throw new IllegalStateException("Creation of database connection failed");
+        }
+
+        try {
+            connection.setAutoCommit(false);
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
+
+        return connection;
     }
 
     /**
@@ -206,12 +252,7 @@ public abstract class Database {
                 return statement.executeQuery();
             } catch (SQLException e) {
                 e.printStackTrace();
-                try {
-                    System.out.println("Transaction has been rolled back");
-                    connection.rollback();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
+                attemptRollback();
             }
         }
         return null;
@@ -229,15 +270,14 @@ public abstract class Database {
         final PreparedStatement statement = prepare(sql, parameters, false);
         if (statement != null) {
             try {
-                return statement.executeUpdate();
+                final int result = statement.executeUpdate();
+
+                statement.close();
+
+                return result;
             } catch (SQLException e) {
                 e.printStackTrace();
-                try {
-                    System.out.println("Transaction has been rolled back");
-                    connection.rollback();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
+                attemptRollback();
             }
         }
         return -1;
@@ -249,7 +289,8 @@ public abstract class Database {
      *
      * @param sql        the prepared statement sql.
      * @param parameters the parameters to prepare.
-     * @param primaryKey the primary key {@link FieldMapping} to set to the generated keys.
+     * @param primaryKey the primary key {@link FieldMapping} to set to the
+     *                   generated keys.
      * @return the number of rows affected in the database.
      */
     public synchronized int execute(final String sql, final Object[] parameters, final FieldMapping primaryKey) {
@@ -261,15 +302,19 @@ public abstract class Database {
                 if (keys.next()) {
                     primaryKey.setValue(keys.getInt(1));
                 }
+
+                // be sure to unlock database tables
+                keys.close();
+                statement.close();
+
+                //if (transactionMode == EXPLICIT)
+                connection.commit();
+
                 return result;
+
             } catch (SQLException e) {
                 e.printStackTrace();
-                try {
-                    System.out.println("Transaction has been rolled back");
-                    connection.rollback();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
+                attemptRollback();
             }
         }
         return -1;
@@ -279,7 +324,8 @@ public abstract class Database {
      * Prepares a {@link PreparedStatement} with parameters.
      *
      * @param sql          the prepared statement sql.
-     * @param parameters   the parameters to prepare into the {@link PreparedStatement}.
+     * @param parameters   the parameters to prepare into the {@link
+     *                     PreparedStatement}.
      * @param generateKeys if true then statement will return keys.
      * @return a {@link PreparedStatement}.
      */
@@ -302,5 +348,28 @@ public abstract class Database {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Attempts to rollback the connection. This will do nothing if the
+     * connection is closed or the connection is set to read-only mode.
+     * Ideally, this should only be called in the event of an exception
+     * during execution of an SQL statement. This will only work when the
+     * transaction mode is not on auto-commit.
+     */
+    private void attemptRollback() {
+        if (connection == null) {
+            return;
+        }
+        try {
+            // only roll back if it is possible to do so
+            if (!connection.isClosed() && !connection.isReadOnly()) {
+                // debug rollback print
+                System.err.println("Transaction has been rolled back");
+                connection.rollback();
+            }
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
