@@ -121,23 +121,20 @@ public abstract class Database {
      * set the transaction mode to explicit, requiring all transactions to
      * be manually committed.
      *
-     * @throws java.lang.IllegalStateException if the result from
-     * {@link Database#connect()} returned <code>null</code>.
+     * @throws java.lang.IllegalStateException if the result from {@link Database#connect()} returned <code>null</code>.
      */
     private Connection setupConnection() {
         final Connection connection = connect();
-        if(connection == null) {
+        if (connection == null) {
             // not sure if this is the appropriate way to handle the
             // case where Database#connect returns null.
             throw new IllegalStateException("Creation of database connection failed");
         }
-
         try {
             connection.setAutoCommit(false);
         } catch (final SQLException e) {
             e.printStackTrace();
         }
-
         return connection;
     }
 
@@ -292,6 +289,7 @@ public abstract class Database {
             try {
                 final int result = statement.executeUpdate();
                 statement.close();
+                connection.commit();
                 return result;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -320,12 +318,9 @@ public abstract class Database {
                 if (keys.next()) {
                     primaryKey.setValue(keys.getInt(1));
                 }
-
-                // be sure to unlock database tables
                 keys.close();
                 statement.close();
                 connection.commit();
-
                 return result;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -339,8 +334,7 @@ public abstract class Database {
      * Prepares a {@link PreparedStatement} with parameters.
      *
      * @param sql          the prepared statement sql.
-     * @param parameters   the parameters to prepare into the {@link
-     *                     PreparedStatement}.
+     * @param parameters   the parameters to prepare into the {@link PreparedStatement}.
      * @param generateKeys if true then statement will return keys.
      * @return a {@link PreparedStatement}.
      */
