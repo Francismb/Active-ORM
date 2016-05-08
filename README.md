@@ -9,26 +9,26 @@ It supports the major databases(SQLite, PostgreSQL, MySQL and H2).
 It also provides a query module so you can easily query for objects in an object orientated manner.
 
 ## Use
-This will be a quick description on how to use ActiveORM, if you run in to any issues while using ActiveORM
+This will be a quick tutorial on how to use ActiveORM, if you run in to any issues while using ActiveORM
 feel free to create an issue on this Github page.
 
 #### Configuration
-This framework was build to be as simple as possible so the configuration has been kept to a very minimum.<br/>
+This framework was built to be as simple as possible so the configuration has been kept to a very minimum.<br/>
 You will need to create a configuration file for the database you are using(H2Database, SQLite, PostgreSQL, MySQL).<br/>
-The configuration file needs to be in a yml format.<br/>
-```yml
+The configuration file needs to be in a yaml format.<br/>
+```yaml
 connector: postgre
 name: testing
 username: development
 password: supersecretpasswordthatnooneknows
 ```
-To load the configuration and initialize the Database object simple call
+To load the configuration and initialize the Database object simply call
 ```java
-Database.fromYaml("config.yml");
+Database.fromYaml("your configuration file here.yml");
 ```
 
 #### ActiveRecord or Model
-These classes are used to create a object which is connected to a table in your database.<br/>
+These classes are used to create a object which is related to a table in your database.<br/>
 This is a small example of a ActiveRecord implementation.<br/>
 ```java
 @Table(name = "users")
