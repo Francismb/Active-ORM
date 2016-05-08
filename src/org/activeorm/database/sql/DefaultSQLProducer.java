@@ -8,6 +8,8 @@ package org.activeorm.database.sql;
  */
 public class DefaultSQLProducer implements SQLProducer {
 
+    protected String delimiter = "`";
+
     public String select(final String table, final String[] columns, final String[] whereColumns, final String[] whereOperators, final String[] orderColumns, final String[] orderOperators, final boolean limit) {
         // Throw an exception if there is not table specified
         if (table == null) {
@@ -37,7 +39,7 @@ public class DefaultSQLProducer implements SQLProducer {
                 final String column = columns[i];
 
                 // Add the condition to the sql
-                sql.append('`').append(column).append('`');
+                sql.append(delimiter).append(column).append(delimiter);
 
                 // If there is another condition after this
                 // one add AND sql
@@ -52,7 +54,7 @@ public class DefaultSQLProducer implements SQLProducer {
         }
 
         // Add the from table sql
-        sql.append("FROM ").append('`').append(table).append('`').append(" ");
+        sql.append("FROM ").append(delimiter).append(table).append(delimiter).append(" ");
 
         // Add the where sql to the statement
         sql.append(where(whereColumns, whereOperators));
@@ -84,7 +86,7 @@ public class DefaultSQLProducer implements SQLProducer {
         final StringBuilder sql = new StringBuilder();
 
         // Append initial INSERT INTO table sql
-        sql.append("INSERT INTO ").append("`").append(table).append("` ");
+        sql.append("INSERT INTO ").append(delimiter).append(table).append(delimiter).append(" ");
 
         // add the columns to the sql
         sql.append('(');
@@ -92,7 +94,7 @@ public class DefaultSQLProducer implements SQLProducer {
             final String column = columns[i];
 
             // Add the condition to the sql
-            sql.append('`').append(column).append('`');
+            sql.append(delimiter).append(column).append(delimiter);
 
             // If there is another column after this
             // one then add ', ' to the sql
@@ -138,7 +140,7 @@ public class DefaultSQLProducer implements SQLProducer {
         sql.append("UPDATE ");
 
         // Append table name
-        sql.append('`').append(table).append("` ");
+        sql.append(delimiter).append(table).append(delimiter).append(" ");
 
         // Add the columns to the sql
         sql.append("SET ");
@@ -146,7 +148,7 @@ public class DefaultSQLProducer implements SQLProducer {
             final String column = columns[i];
 
             // Add the condition to the sql
-            sql.append('`').append(column).append('`').append(" = ?");
+            sql.append(delimiter).append(column).append(delimiter).append(" = ?");
 
             // If there is another column after this
             // one then add ', ' to the sql
@@ -177,7 +179,7 @@ public class DefaultSQLProducer implements SQLProducer {
         sql.append("DELETE FROM ");
 
         // Append table name
-        sql.append('`').append(table).append('`').append(" ");
+        sql.append(delimiter).append(table).append(delimiter).append(" ");
 
         // Append where sql
         sql.append(where(whereColumns, whereOperators));
@@ -207,7 +209,7 @@ public class DefaultSQLProducer implements SQLProducer {
 
             // Add the condition to the sql
 
-            sql.append('`').append(column).append('`').append(" ").append(operator).append(" ? ");
+            sql.append(delimiter).append(column).append(delimiter).append(" ").append(operator).append(" ? ");
 
             // If there is another condition after this
             // one add AND sql
@@ -240,7 +242,7 @@ public class DefaultSQLProducer implements SQLProducer {
             final String operator = operators[i];
 
             // Add the condition to the sql
-            sql.append('`').append(column).append('`').append(" ").append(operator);
+            sql.append(delimiter).append(column).append(delimiter).append(" ").append(operator);
 
             // If there is another order after this
             // one add a ', ' to the sql

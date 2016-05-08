@@ -2,6 +2,7 @@ package org.activeorm.database;
 
 import org.activeorm.database.configuration.DatabaseConfiguration;
 import org.activeorm.database.configuration.H2DatabaseConfiguration;
+import org.activeorm.database.configuration.PostgreSQLDatabaseConfiguration;
 import org.activeorm.database.configuration.SQLiteDatabaseConfiguration;
 import org.activeorm.database.datahandler.BooleanHandler;
 import org.activeorm.database.datahandler.ByteHandler;
@@ -193,10 +194,10 @@ public abstract class Database {
                         }
 
                         // Get the data
-                        final String address = map.get("address");
+                        final String sqlliteAddress = map.get("address");
 
                         // Create the configuration and set the database instance
-                        final SQLiteDatabaseConfiguration sqliteConfiguration = new SQLiteDatabaseConfiguration(address);
+                        final SQLiteDatabaseConfiguration sqliteConfiguration = new SQLiteDatabaseConfiguration(sqlliteAddress);
                         Database.instance = new SQLiteDatabase(sqliteConfiguration);
                         break;
                     case "h2":
@@ -204,9 +205,24 @@ public abstract class Database {
                         // Create the configuration and set the database instance
                         Database.instance = new H2Database();
                         break;
-                    case "mysql":
-                        break;
+                    case "postgre":
                     case "postgresql":
+                        // If the map does not contain a location of the database then throw an exception
+                        if (!map.containsKey("name")) {
+                            throw new RuntimeException("Configuration file did not contain a name for the database");
+                        }
+
+                        // Get the data
+                        final String postgreName = map.get("name");
+                        final String postgreUsername = map.containsKey("username") ? map.get("username") : "";
+                        final String postgrePassword = map.containsKey("password") ? map.get("password") : "";
+                        final String postgreAddress = map.containsKey("address") ? map.get("address") : "localhost";
+
+                        // Create the configuration and set the database instance
+                        final PostgreSQLDatabaseConfiguration postgresConfiguration = new PostgreSQLDatabaseConfiguration(postgreName, postgreAddress, postgreUsername, postgrePassword);
+                        Database.instance = new PostgreSQLDatabase(postgresConfiguration);
+                        break;
+                    case "mysql":
                         break;
                 }
 

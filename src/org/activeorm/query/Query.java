@@ -281,7 +281,7 @@ public class Query<T extends ActiveRecord> {
 
         try {
             // Iterate through the result set
-            if (resultSet.next()) {
+            if (resultSet != null && resultSet.next()) {
                 // Create a new object instance
                 final T result = activeRecord.newInstance();
 
