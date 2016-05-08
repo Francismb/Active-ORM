@@ -7,3 +7,53 @@ ActiveORM, it is a object relational mapping which follows the active record pat
 
 It supports the major databases(SQLite, PostgreSQL, MySQL and H2).
 It also provides a query module so you can easily query for objects in an object orientated manner.
+
+## Use
+This will be a quick description on how to use ActiveORM, if you run in to any issues while using ActiveORM
+feel free to create an issue on this Github page.
+
+#### Configuration
+This framework was build to be as simple as possible so the configuration has been kept to a very minimum.<br/>
+You will need to create a configuration file for the database you are using(H2Database, SQLite, PostgreSQL, MySQL).<br/>
+The configuration file needs to be in a yml format.<br/>
+```yml
+connector: postgre
+name: testing
+username: development
+password: supersecretpasswordthatnooneknows
+```
+To load the configuration and initialize the Database object simple call
+```java
+Database.fromYaml("config.yml");
+```
+
+#### ActiveRecord or Model
+These classes are used to create a object which is connected to a table in your database.<br/>
+This is a small example of a ActiveRecord implementation.<br/>
+```java
+@Table(name = "users")
+public class User extends ActiveRecord {
+
+    @PrimaryKey
+    @Column(name = "id")
+    public int id;
+
+    @Column(name = "username")
+    public String name;
+
+    @Column(name = "password")
+    public String password;
+
+}
+```
+
+#### Query
+The Query object allows you to create a query to get ActiveRecords and Models from the
+database easily but also delete them from the database.<br/>
+This is a small example of how to use the Query object.<br/>
+```java
+// Queries the database for the first record that matches
+// the conditions and then converts it to a User object
+final User user Query.build(User.class).where("username").equalTo("Tom").first();
+System.out.printLn(user.name);
+```
