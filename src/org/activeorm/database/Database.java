@@ -32,7 +32,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -267,7 +269,6 @@ public abstract class Database {
         if (statement != null) {
             try {
                 final ResultSet result = statement.executeQuery();
-                result.close();
                 connection.commit();
                 return result;
             } catch (SQLException e) {

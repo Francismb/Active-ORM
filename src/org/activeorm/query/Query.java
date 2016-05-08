@@ -211,6 +211,13 @@ public class Query<T extends ActiveRecord> {
             }
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                // Close the results resource
+                resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return results;
     }
@@ -302,6 +309,13 @@ public class Query<T extends ActiveRecord> {
             }
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                // Close the results resource
+                resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
