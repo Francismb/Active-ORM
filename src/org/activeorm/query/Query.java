@@ -183,7 +183,7 @@ public class Query<T extends ActiveRecord> {
 
         try {
             // Iterate through the result set
-            while (resultSet.next()) {
+            while (resultSet != null && resultSet.next()) {
                 // Create a new object instance
                 final T result = activeRecord.newInstance();
 
@@ -214,7 +214,9 @@ public class Query<T extends ActiveRecord> {
         } finally {
             try {
                 // Close the results resource
-                resultSet.close();
+                if (resultSet != null) {
+                    resultSet.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -312,7 +314,9 @@ public class Query<T extends ActiveRecord> {
         } finally {
             try {
                 // Close the results resource
-                resultSet.close();
+                if (resultSet != null) {
+                    resultSet.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
