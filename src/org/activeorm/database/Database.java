@@ -1,7 +1,6 @@
 package org.activeorm.database;
 
 import org.activeorm.database.configuration.DatabaseConfiguration;
-import org.activeorm.database.configuration.H2DatabaseConfiguration;
 import org.activeorm.database.configuration.PostgreSQLDatabaseConfiguration;
 import org.activeorm.database.configuration.SQLiteDatabaseConfiguration;
 import org.activeorm.database.datahandler.BooleanHandler;
@@ -19,6 +18,7 @@ import org.activeorm.database.datahandler.TimeStampHandler;
 import org.activeorm.database.sql.SQLProducer;
 import org.activeorm.exceptions.UnsupportedDataTypeException;
 import org.activeorm.mapping.FieldMapping;
+import org.activeorm.utility.Resource;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
@@ -33,9 +33,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -280,13 +278,13 @@ public abstract class Database {
      * @param parameters the parameters to prepare.
      * @return The result of the query or null if the query failed.
      */
-    public synchronized ResultSet query(final String sql, final Object[] parameters) {
+    public synchronized Resource query(final String sql, final Object[] parameters) {
         final PreparedStatement statement = prepare(sql, parameters, false);
         if (statement != null) {
             try {
                 final ResultSet result = statement.executeQuery();
                 connection.commit();
-                return result;
+                return new Resource(statement, result);
             } catch (SQLException e) {
                 e.printStackTrace();
                 attemptRollback();

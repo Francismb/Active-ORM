@@ -1,6 +1,7 @@
 package org.activeorm.query;
 
 import org.activeorm.database.Database;
+import org.activeorm.utility.Resource;
 import org.activeorm.exceptions.UnsupportedDataTypeException;
 import org.activeorm.mapping.ActiveRecord;
 import org.activeorm.mapping.FieldMapping;
@@ -176,7 +177,10 @@ public class Query<T extends ActiveRecord> {
         final String sql = database.sql.select(mapping.table.name(), null, whereColumns, whereOperators, orderColumns, orderDirections, limit != -1);
 
         // Execute the query
-        final ResultSet resultSet = database.query(sql, parameters);
+        final Resource resource = database.query(sql, parameters);
+
+        // Get the result set
+        final ResultSet resultSet = resource.getResult();
 
         // The results converted into objects
         final List<T> results = new ArrayList<>();
@@ -212,14 +216,8 @@ public class Query<T extends ActiveRecord> {
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         } finally {
-            try {
-                // Close the results resource
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            // Close the results resource
+            resource.release();
         }
         return results;
     }
@@ -279,7 +277,10 @@ public class Query<T extends ActiveRecord> {
         final String sql = database.sql.select(mapping.table.name(), null, whereColumns, whereOperators, orderColumns, orderDirections, limit != -1);
 
         // Execute the query
-        final ResultSet resultSet = database.query(sql, parameters);
+        final Resource resource = database.query(sql, parameters);
+
+        // Get the result set
+        final ResultSet resultSet = resource.getResult();
 
         try {
             // Iterate through the result set
@@ -312,14 +313,8 @@ public class Query<T extends ActiveRecord> {
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         } finally {
-            try {
-                // Close the results resource
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            // Close the results resource
+            resource.release();
         }
         return null;
     }
