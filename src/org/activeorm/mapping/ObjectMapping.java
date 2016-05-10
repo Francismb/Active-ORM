@@ -75,7 +75,7 @@ public class ObjectMapping {
                     primaryKey = mapping;
                 }
 
-                // Set the relationship annotation if it is present
+                // Set the relationships annotation if it is present
                 if (field.isAnnotationPresent(Relationship.class)) {
                     mapping.relationship = field.getAnnotation(Relationship.class);
                 }

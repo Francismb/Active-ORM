@@ -25,7 +25,9 @@ public class PostgreSQLDatabase extends Database {
 
     public Connection connect() {
         try {
-            connection = DriverManager.getConnection("jdbc:postgresql://" + configuration.address + "/" + configuration.name, configuration.username, configuration.password);
+            connection = DriverManager.getConnection(
+                    "jdbc:postgresql://" + configuration.address + "/" + configuration.name, configuration.username, configuration.password
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
