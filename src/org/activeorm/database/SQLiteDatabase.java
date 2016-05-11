@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 /**
  * Created by Francis on 9/04/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  *
  * A SQLite {@link Database} implementation.
  */

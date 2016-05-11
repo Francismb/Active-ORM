@@ -1,6 +1,7 @@
 package org.activeorm.mapping.relationships;
 
 import org.activeorm.ActiveRecord;
+import org.activeorm.mapping.AttributeMapping;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -10,12 +11,18 @@ import java.lang.reflect.ParameterizedType;
  */
 public class Relationship<T extends ActiveRecord> {
 
-    protected final Class<T> type;
-    protected final Class owner;
-    //protected final Column column;
+    /**
+     * The ActiveRecord that this relationship links to.
+     */
+    public final Class<T> type;
 
-    protected Relationship(final Class owner) {
-        this.owner = owner;
+    /**
+     * The {@link AttributeMapping} of this {@link Relationship}
+     */
+    public final AttributeMapping attribute;
+
+    protected Relationship(final AttributeMapping attribute) {
+        this.attribute = attribute;
         this.type = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 }

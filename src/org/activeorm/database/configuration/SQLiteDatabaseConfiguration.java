@@ -2,7 +2,7 @@ package org.activeorm.database.configuration;
 
 /**
  * Created by Francis on 9/04/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  *
  * A SQLite {@link DatabaseConfiguration} implementation.
  */

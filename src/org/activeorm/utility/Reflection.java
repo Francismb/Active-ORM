@@ -5,19 +5,19 @@ import java.lang.reflect.Field;
 
 /**
  * Created by Francis on 10/04/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  */
 public class Reflection {
 
     public static Object getValue(final Class clazz, final String fieldName, final Object instance) {
-        return getValue(clazz, getField(clazz, fieldName), instance);
+        return getValue(getField(clazz, fieldName), instance);
     }
 
     public static Object[] getArray(final Class clazz, final String fieldName, final Object instance) {
-        return getArray(clazz, getField(clazz, fieldName), instance);
+        return getArray(getField(clazz, fieldName), instance);
     }
 
-    public static Object getValue(final Class clazz, final Field field, final Object instance) {
+    public static Object getValue(final Field field, final Object instance) {
         try {
             if (!field.isAccessible()) {
                 field.setAccessible(true);
@@ -30,10 +30,10 @@ public class Reflection {
     }
 
     public static void setValue(final Class clazz, final String fieldName, final Object instance, final Object value) {
-        setValue(clazz, getField(clazz, fieldName), instance, value);
+        setValue(getField(clazz, fieldName), instance, value);
     }
 
-    public static void setValue(final Class clazz, final Field field, final Object instance, final Object value) {
+    public static void setValue(final Field field, final Object instance, final Object value) {
         try {
             if (!field.isAccessible()) {
                 field.setAccessible(true);
@@ -44,8 +44,8 @@ public class Reflection {
         }
     }
 
-    public static Object[] getArray(final Class clazz, final Field field, final Object instance) {
-        final Object object = getValue(clazz, field, instance);
+    public static Object[] getArray(final Field field, final Object instance) {
+        final Object object = getValue(field, instance);
         final Class type = object.getClass();
         final int length = Array.getLength(object);
         final Object[] array = (Object[]) Array.newInstance(type, length);

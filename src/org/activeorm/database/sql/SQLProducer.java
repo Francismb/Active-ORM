@@ -2,7 +2,7 @@ package org.activeorm.database.sql;
 
 /**
  * Created by Francis on 13/04/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  *
  * A interface which provides functionality to produce basic sql queries.
  */

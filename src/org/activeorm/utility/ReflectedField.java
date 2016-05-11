@@ -17,11 +17,6 @@ public class ReflectedField<T> {
     public final Field field;
 
     /**
-     * The {@link Class} that contains the {@link Field}
-     */
-    private final Class clazz;
-
-    /**
      * The instance to get the value from.
      */
     private final Object instance;
@@ -36,12 +31,10 @@ public class ReflectedField<T> {
      * Constructs a new {@link ReflectedField}.
      *
      * @param field the {@link Field} to get the value from.
-     * @param clazz the {@link Class} that contains the {@link Field}.
      * @param instance the instance to get the value from.
      */
-    public ReflectedField(final Field field, final Class clazz, final Object instance) {
+    public ReflectedField(final Field field, final Object instance) {
         this.field = field;
-        this.clazz = clazz;
         this.instance = instance;
         this.initialValue = getValue();
     }
@@ -52,7 +45,7 @@ public class ReflectedField<T> {
      * @return the value of the field.
      */
     public T getValue() {
-        return (T) Reflection.getValue(clazz, field, instance);
+        return (T) Reflection.getValue(field, instance);
     }
 
     /**
@@ -61,7 +54,7 @@ public class ReflectedField<T> {
      * @param value the value for the field to be set to.
      */
     public void setValue(final T value) {
-        Reflection.setValue(clazz, field, instance, value);
+        Reflection.setValue(field, instance, value);
     }
 
     /**

@@ -2,7 +2,7 @@ package org.activeorm.exceptions;
 
 /**
  * Created by Francis on 1/05/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  *
  * This exception is thrown when a data type cant be taken from
  * a jdbc {@link java.sql.ResultSet} or a data type cant be

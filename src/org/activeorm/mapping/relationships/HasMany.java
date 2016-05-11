@@ -1,6 +1,7 @@
 package org.activeorm.mapping.relationships;
 
 import org.activeorm.ActiveRecord;
+import org.activeorm.mapping.AttributeMapping;
 import org.activeorm.query.Query;
 
 import java.util.List;
@@ -11,8 +12,8 @@ import java.util.List;
  */
 public class HasMany<T extends ActiveRecord> extends Relationship<T> {
 
-    protected HasMany(Class owner) {
-        super(owner);
+    protected HasMany(final AttributeMapping attribute) {
+        super(attribute);
     }
 
     public Query<T> query() {

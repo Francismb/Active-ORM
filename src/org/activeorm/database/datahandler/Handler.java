@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 
 /**
  * Created by Francis on 1/05/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  */
 public interface Handler<T> {
 

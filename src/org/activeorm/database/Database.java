@@ -38,12 +38,12 @@ import java.util.Map;
 
 /**
  * Created by Francis on 9/04/16.
- * Project Jactive-Record.
- * <p/>
+ * Project Active-ORM.
+ *
  * The {@link Database} object has the ability to execute
  * prepared statements on the database, it also contains the
  * database configuration and the connection to the database.
- * <p/>
+ *
  * Must be constructed using the fromYaml static function.
  */
 public abstract class Database {

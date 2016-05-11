@@ -14,8 +14,8 @@ import java.util.List;
 
 /**
  * Created by Francis on 9/04/16.
- * Project Jactive-Record.
- * <p>
+ * Project Active-ORM.
+ *
  * Represents the mapping of a {@link ActiveRecord}
  */
 public class ObjectMapping {
@@ -60,7 +60,7 @@ public class ObjectMapping {
 
                 } else {
                     // Create a mapping
-                    final AttributeMapping attribute = new AttributeMapping(field, clazz, instance);
+                    final AttributeMapping attribute = new AttributeMapping(field, instance);
 
                     // Set the mappings column annotations
                     attribute.column = field.getAnnotation(Column.class);

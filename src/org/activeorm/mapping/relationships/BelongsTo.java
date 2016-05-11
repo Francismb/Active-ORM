@@ -1,6 +1,7 @@
 package org.activeorm.mapping.relationships;
 
 import org.activeorm.ActiveRecord;
+import org.activeorm.mapping.AttributeMapping;
 
 /**
  * Created by Francis on 11/05/16.
@@ -8,8 +9,8 @@ import org.activeorm.ActiveRecord;
  */
 public class BelongsTo<T extends ActiveRecord> extends Relationship<T> {
 
-    protected BelongsTo(Class owner) {
-        super(owner);
+    protected BelongsTo(final AttributeMapping attribute) {
+        super(attribute);
     }
 
     public T get() {

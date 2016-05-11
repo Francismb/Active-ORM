@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 /**
  * Created by Francis on 1/05/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  */
 public class StringHandler implements Handler<String> {
 

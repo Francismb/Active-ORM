@@ -2,7 +2,7 @@ package org.activeorm.exceptions;
 
 /**
  * Created by Francis on 1/05/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  *
  * This exception is thrown when the database does not support
  * the data type or you are using a data type that is not supported

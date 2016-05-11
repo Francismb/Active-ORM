@@ -4,7 +4,7 @@ import org.activeorm.ActiveRecord;
 
 /**
  * Created by Francis on 1/05/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  */
 public class OrderQuery<T extends ActiveRecord> {
 

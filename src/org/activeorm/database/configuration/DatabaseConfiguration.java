@@ -2,7 +2,7 @@ package org.activeorm.database.configuration;
 
 /**
  * Created by Francis on 9/04/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  *
  * A database configuration object containing information
  * on were the database is located and authentication info.

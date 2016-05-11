@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Created by Francis on 1/05/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  */
 public class Query<T extends ActiveRecord> {
 

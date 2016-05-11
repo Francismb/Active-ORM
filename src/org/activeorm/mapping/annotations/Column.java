@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Created by Francis on 9/04/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  *
  * The {@link Column} annotation is required for every
  * field that you want mapped to the database.

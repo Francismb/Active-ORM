@@ -6,7 +6,7 @@ import java.sql.*;
 
 /**
  * Created by Francis on 1/05/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  */
 public class TimeStampHandler implements Handler<Timestamp> {
 

@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Created by Francis on 30/04/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  *
  * Represents the static mapping of a {@link ActiveRecord}
  */

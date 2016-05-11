@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Created by Francis on 9/04/16.
- * Project Jactive-Record.
+ * Project Active-ORM.
  */
 public class ActiveRecord {
 
