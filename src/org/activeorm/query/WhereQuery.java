@@ -1,6 +1,6 @@
 package org.activeorm.query;
 
-import org.activeorm.orm.ActiveRecord;
+import org.activeorm.ActiveRecord;
 
 /**
  * Created by Francis on 1/05/16.

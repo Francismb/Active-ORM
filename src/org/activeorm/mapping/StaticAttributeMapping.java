@@ -1,7 +1,7 @@
-package org.activeorm.orm.mapping;
+package org.activeorm.mapping;
 
-import org.activeorm.orm.annotations.Column;
-import org.activeorm.orm.annotations.PrimaryKey;
+import org.activeorm.mapping.annotations.Column;
+import org.activeorm.mapping.annotations.PrimaryKey;
 
 import java.lang.reflect.Field;
 

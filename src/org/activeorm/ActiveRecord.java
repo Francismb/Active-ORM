@@ -1,8 +1,8 @@
-package org.activeorm.orm;
+package org.activeorm;
 
 import org.activeorm.database.Database;
-import org.activeorm.orm.mapping.AttributeMapping;
-import org.activeorm.orm.mapping.ObjectMapping;
+import org.activeorm.mapping.AttributeMapping;
+import org.activeorm.mapping.ObjectMapping;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.activeorm.orm;
+package org.activeorm;
 
 /**
  * Created by Francis on 8/05/16.

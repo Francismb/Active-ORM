@@ -1,12 +1,12 @@
 package org.activeorm.query;
 
 import org.activeorm.database.Database;
-import org.activeorm.orm.mapping.AttributeMapping;
+import org.activeorm.mapping.AttributeMapping;
 import org.activeorm.utility.Resource;
 import org.activeorm.exceptions.UnsupportedDataTypeException;
-import org.activeorm.orm.ActiveRecord;
-import org.activeorm.orm.mapping.ObjectMapping;
-import org.activeorm.orm.mapping.StaticObjectMapping;
+import org.activeorm.ActiveRecord;
+import org.activeorm.mapping.ObjectMapping;
+import org.activeorm.mapping.StaticObjectMapping;
 import org.activeorm.utility.Reflection;
 
 import java.sql.ResultSet;

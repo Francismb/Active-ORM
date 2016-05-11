@@ -1,4 +1,4 @@
-package org.activeorm.orm.annotations;
+package org.activeorm.mapping.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

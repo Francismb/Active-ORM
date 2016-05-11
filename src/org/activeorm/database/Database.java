@@ -14,7 +14,7 @@ import org.activeorm.database.datahandler.LongHandler;
 import org.activeorm.database.datahandler.ShortHandler;
 import org.activeorm.database.datahandler.StringHandler;
 import org.activeorm.database.datahandler.TimeHandler;
-import org.activeorm.orm.mapping.AttributeMapping;
+import org.activeorm.mapping.AttributeMapping;
 import org.activeorm.database.datahandler.TimeStampHandler;
 import org.activeorm.database.sql.SQLProducer;
 import org.activeorm.exceptions.UnsupportedDataTypeException;

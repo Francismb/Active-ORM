@@ -1,10 +1,8 @@
 package org.activeorm;
 
-import org.activeorm.orm.ActiveRecord;
-import org.activeorm.orm.annotations.Column;
-import org.activeorm.orm.annotations.PrimaryKey;
-import org.activeorm.orm.annotations.Table;
-import org.activeorm.orm.relationships.BelongsTo;
+import org.activeorm.mapping.annotations.Column;
+import org.activeorm.mapping.annotations.PrimaryKey;
+import org.activeorm.mapping.annotations.Table;
 
 /**
  * Created by Francis on 11/05/16.

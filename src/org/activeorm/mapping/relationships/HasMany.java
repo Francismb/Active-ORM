@@ -1,6 +1,6 @@
-package org.activeorm.orm.relationships;
+package org.activeorm.mapping.relationships;
 
-import org.activeorm.orm.ActiveRecord;
+import org.activeorm.ActiveRecord;
 import org.activeorm.query.Query;
 
 import java.util.List;
