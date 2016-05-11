@@ -1,4 +1,4 @@
-package org.activeorm.mapping;
+package org.activeorm.orm;
 
 /**
  * Created by Francis on 8/05/16.

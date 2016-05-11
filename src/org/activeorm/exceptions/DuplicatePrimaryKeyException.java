@@ -4,7 +4,7 @@ package org.activeorm.exceptions;
  * Created by Francis on 1/05/16.
  * Project Jactive-Record.
  *
- * A exception which is thown when there are multiple {@link org.activeorm.mapping.annotations.PrimaryKey} fields.
+ * A exception which is thown when there are multiple {@link org.activeorm.orm.annotations.PrimaryKey} fields.
  */
 public class DuplicatePrimaryKeyException extends RuntimeException {
     public DuplicatePrimaryKeyException(final String message) {

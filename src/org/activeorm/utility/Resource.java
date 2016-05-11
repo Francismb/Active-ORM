@@ -5,8 +5,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Created by Activate2 on 5/10/2016.
- * <p>
+ * Created by Francis on 5/10/2016.
+ * Project Active-ORM.
+ *
  * Resource is a object return from the query method in database.
  * It contains the results of the query and the ability to close them.
  */

@@ -14,10 +14,10 @@ import org.activeorm.database.datahandler.LongHandler;
 import org.activeorm.database.datahandler.ShortHandler;
 import org.activeorm.database.datahandler.StringHandler;
 import org.activeorm.database.datahandler.TimeHandler;
+import org.activeorm.orm.mapping.AttributeMapping;
 import org.activeorm.database.datahandler.TimeStampHandler;
 import org.activeorm.database.sql.SQLProducer;
 import org.activeorm.exceptions.UnsupportedDataTypeException;
-import org.activeorm.mapping.FieldMapping;
 import org.activeorm.utility.Resource;
 import org.yaml.snakeyaml.Yaml;
 
@@ -323,18 +323,18 @@ public abstract class Database {
      *
      * @param sql        the prepared statement sql.
      * @param parameters the parameters to prepare.
-     * @param primaryKey the primary key {@link FieldMapping} to set to the
+     * @param primaryKey the primary key {@link AttributeMapping} to set to the
      *                   generated keys.
      * @return the number of rows affected in the database.
      */
-    public synchronized int execute(final String sql, final Object[] parameters, final FieldMapping primaryKey) {
+    public synchronized int execute(final String sql, final Object[] parameters, final AttributeMapping primaryKey) {
         final PreparedStatement statement = prepare(sql, parameters, true);
         if (statement != null) {
             try {
                 final int result = statement.executeUpdate();
                 final ResultSet keys = statement.getGeneratedKeys();
                 if (keys.next()) {
-                    primaryKey.setValue(keys.getInt(1));
+                    primaryKey.field.setValue(keys.getInt(1));
                 }
                 keys.close();
                 statement.close();

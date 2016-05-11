@@ -1,6 +1,6 @@
 package org.activeorm.query;
 
-import org.activeorm.mapping.ActiveRecord;
+import org.activeorm.orm.ActiveRecord;
 
 /**
  * Created by Francis on 1/05/16.

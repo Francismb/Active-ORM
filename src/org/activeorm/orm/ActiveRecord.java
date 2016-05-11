@@ -1,6 +1,8 @@
-package org.activeorm.mapping;
+package org.activeorm.orm;
 
 import org.activeorm.database.Database;
+import org.activeorm.orm.mapping.AttributeMapping;
+import org.activeorm.orm.mapping.ObjectMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +34,10 @@ public class ActiveRecord {
      */
     public boolean save() {
         // Find all the modified fields
-        final List<FieldMapping> modifications = new ArrayList<>();
-        for (final FieldMapping mapping : this.mapping.mappings) {
-            if (mapping.hasBeenModified()) {
-                modifications.add(mapping);
+        final List<AttributeMapping> modifications = new ArrayList<>();
+        for (final AttributeMapping attribute : this.mapping.attributes) {
+            if (attribute.field.hasBeenModified()) {
+                modifications.add(attribute);
             }
         }
 
@@ -48,7 +50,7 @@ public class ActiveRecord {
         // The values of the modified fields
         final Object[] values = new Object[modifications.size()];
         for (int i = 0; i < modifications.size(); i++) {
-            values[i] = modifications.get(i).getValue();
+            values[i] = modifications.get(i).field.getValue();
         }
 
         // Get the database instance
@@ -79,7 +81,7 @@ public class ActiveRecord {
         final String[] operators = new String[]{"="};
 
         // Create an array which contains the primary key value
-        final Object[] values = new Object[]{mapping.primaryKey.getValue()};
+        final Object[] values = new Object[]{mapping.primaryKey.field.getValue()};
 
         // Get the database instance
         final Database database = Database.getInstance();

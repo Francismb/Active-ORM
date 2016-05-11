@@ -1,4 +1,6 @@
-package org.activeorm.mapping.annotations;
+package org.activeorm.orm.annotations;
+
+import org.activeorm.orm.ActiveRecord;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,10 +11,13 @@ import java.lang.annotation.Target;
  * Created by Francis on 9/04/16.
  * Project Jactive-Record.
  *
- * If the {@link PrimaryKey} annotation is present on
- * a field it determines that the field is the primary key.
+ * The {@link Table} annotation is required to be
+ * places on the class for each {@link ActiveRecord}
  */
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PrimaryKey {
+public @interface Table {
+
+    public String name();
+
 }

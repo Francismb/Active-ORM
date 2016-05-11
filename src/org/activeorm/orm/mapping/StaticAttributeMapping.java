@@ -1,7 +1,7 @@
-package org.activeorm.mapping;
+package org.activeorm.orm.mapping;
 
-import org.activeorm.mapping.annotations.Column;
-import org.activeorm.mapping.annotations.PrimaryKey;
+import org.activeorm.orm.annotations.Column;
+import org.activeorm.orm.annotations.PrimaryKey;
 
 import java.lang.reflect.Field;
 
@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
  *
  * Represents the static mapping of a field.
  */
-public class StaticFieldMapping {
+public class StaticAttributeMapping {
 
     /**
      * The {@link Field} that is being mapped.
@@ -25,7 +25,7 @@ public class StaticFieldMapping {
 
     /**
      * A flag {@link PrimaryKey} to set if
-     * this {@link FieldMapping} is a primary key.
+     * this {@link StaticAttributeMapping} is a primary key.
      */
     public PrimaryKey primaryKey = null;
 
@@ -36,12 +36,12 @@ public class StaticFieldMapping {
     public Column column = null;
 
     /**
-     * Constructs a new {@link StaticFieldMapping}.
+     * Constructs a new {@link StaticAttributeMapping}.
      *
      * @param clazz the {@link Class} that contains the {@link Field}.
      * @param field the {@link Field} that represents the column
      */
-    public StaticFieldMapping(final Class clazz, final Field field) {
+    public StaticAttributeMapping(final Class clazz, final Field field) {
         this.clazz = clazz;
         this.field = field;
     }

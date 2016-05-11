@@ -1,9 +1,10 @@
-package org.activeorm.mapping;
+package org.activeorm.orm.mapping;
 
 import org.activeorm.exceptions.AnnotationRequiredException;
-import org.activeorm.mapping.annotations.Column;
-import org.activeorm.mapping.annotations.PrimaryKey;
-import org.activeorm.mapping.annotations.Table;
+import org.activeorm.orm.ActiveRecord;
+import org.activeorm.orm.annotations.Column;
+import org.activeorm.orm.annotations.PrimaryKey;
+import org.activeorm.orm.annotations.Table;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -23,9 +24,9 @@ public class StaticObjectMapping {
     public Table table;
 
     /**
-     * A list of {@link FieldMapping}.
+     * A list of {@link StaticAttributeMapping}.
      */
-    public final List<StaticFieldMapping> mappings = new ArrayList<>();
+    public final List<StaticAttributeMapping> attributes = new ArrayList<>();
 
     /**
      * Constructs a new {@link StaticObjectMapping} and maps the object.
@@ -41,18 +42,18 @@ public class StaticObjectMapping {
         for (final Field field : clazz.getFields()) {
             if (field.isAnnotationPresent(Column.class)) {
                 // Create a mapping
-                final StaticFieldMapping mapping = new StaticFieldMapping(clazz, field);
+                final StaticAttributeMapping attribute = new StaticAttributeMapping(clazz, field);
 
                 // Set the mappings column annotations
-                mapping.column = field.getAnnotation(Column.class);
+                attribute.column = field.getAnnotation(Column.class);
 
                 // Set the primary key annotation if it is present
                 if (field.isAnnotationPresent(PrimaryKey.class)) {
-                    mapping.primaryKey = field.getAnnotation(PrimaryKey.class);
+                    attribute.primaryKey = field.getAnnotation(PrimaryKey.class);
                 }
 
                 // Add the mapping
-                mappings.add(mapping);
+                attributes.add(attribute);
             }
         }
     }

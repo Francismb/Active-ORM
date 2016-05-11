@@ -1,12 +1,12 @@
 package org.activeorm.query;
 
 import org.activeorm.database.Database;
+import org.activeorm.orm.mapping.AttributeMapping;
 import org.activeorm.utility.Resource;
 import org.activeorm.exceptions.UnsupportedDataTypeException;
-import org.activeorm.mapping.ActiveRecord;
-import org.activeorm.mapping.FieldMapping;
-import org.activeorm.mapping.ObjectMapping;
-import org.activeorm.mapping.StaticObjectMapping;
+import org.activeorm.orm.ActiveRecord;
+import org.activeorm.orm.mapping.ObjectMapping;
+import org.activeorm.orm.mapping.StaticObjectMapping;
 import org.activeorm.utility.Reflection;
 
 import java.sql.ResultSet;
@@ -195,16 +195,16 @@ public class Query<T extends ActiveRecord> {
                 final ObjectMapping mapping = (ObjectMapping) Reflection.getValue(result.getClass().getSuperclass(), "mapping", result);
 
                 // Iterate through the field mappings and set the values
-                for (final FieldMapping fieldMapping : mapping.mappings) {
+                for (final AttributeMapping attribute : mapping.attributes) {
                     // Get the index of the column in the results
-                    final int index = resultSet.findColumn(fieldMapping.column.name());
+                    final int index = resultSet.findColumn(attribute.column.name());
 
                     // Get the type of the field
-                    final Class type = fieldMapping.field.getType();
+                    final Class type = attribute.field.getType();
 
                     // Set the fields value
                     if (database.handlers.containsKey(type)) {
-                        fieldMapping.setValue(database.handlers.get(type).get(index, resultSet));
+                        attribute.field.setValue(database.handlers.get(type).get(index, resultSet));
                     } else {
                         throw new UnsupportedDataTypeException(type.getName());
                     }
@@ -292,16 +292,16 @@ public class Query<T extends ActiveRecord> {
                 final ObjectMapping mapping = (ObjectMapping) Reflection.getValue(result.getClass().getSuperclass(), "mapping", result);
 
                 // Iterate through the field mappings and set the values
-                for (final FieldMapping fieldMapping : mapping.mappings) {
+                for (final AttributeMapping attribute : mapping.attributes) {
                     // Get the index of the column in the results
-                    final int index = resultSet.findColumn(fieldMapping.column.name());
+                    final int index = resultSet.findColumn(attribute.column.name());
 
                     // Get the type of the field
-                    final Class type = fieldMapping.field.getType();
+                    final Class type = attribute.field.getType();
 
                     // Set the fields value
                     if (database.handlers.containsKey(type)) {
-                        fieldMapping.setValue(database.handlers.get(type).get(index, resultSet));
+                        attribute.field.setValue(database.handlers.get(type).get(index, resultSet));
                     } else {
                         throw new UnsupportedDataTypeException(type.getName());
                     }

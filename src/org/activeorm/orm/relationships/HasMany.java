@@ -1,6 +1,6 @@
-package org.activeorm.mapping.relationships;
+package org.activeorm.orm.relationships;
 
-import org.activeorm.mapping.ActiveRecord;
+import org.activeorm.orm.ActiveRecord;
 import org.activeorm.query.Query;
 
 import java.util.List;
@@ -10,6 +10,10 @@ import java.util.List;
  * Project Active-ORM.
  */
 public class HasMany<T extends ActiveRecord> extends Relationship<T> {
+
+    protected HasMany(Class owner) {
+        super(owner);
+    }
 
     public Query<T> query() {
         return Query.build(type);
