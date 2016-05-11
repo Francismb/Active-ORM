@@ -16,6 +16,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Column {
 
-    public String name();
+    /**
+     * The name of the database column.
+     */
+    public String name() default "none";
+
+    /**
+     * The name of the database column that this annotation is linked to.
+     */
+    public String relationship() default "none";
 
 }

@@ -3,6 +3,7 @@ package org.activeorm;
 import org.activeorm.mapping.annotations.Column;
 import org.activeorm.mapping.annotations.PrimaryKey;
 import org.activeorm.mapping.annotations.Table;
+import org.activeorm.mapping.relationships.BelongsTo;
 
 /**
  * Created by Francis on 11/05/16.
@@ -15,7 +16,7 @@ public class Pie extends ActiveRecord {
     @Column(name = "id")
     public int id;
 
-    //@Column(name = "user_id")
-    //public BelongsTo<User> user;
+    @Column(name = "user_id")
+    public BelongsTo<User> user;
 
 }

@@ -21,6 +21,11 @@ public class Relationship<T extends ActiveRecord> {
      */
     public final AttributeMapping attribute;
 
+    /**
+     * Constructs a new {@link Relationship}
+     *
+     * @param attribute the attribute that the relationship is bound to.
+     */
     protected Relationship(final AttributeMapping attribute) {
         this.attribute = attribute;
         this.type = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];

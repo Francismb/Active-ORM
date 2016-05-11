@@ -9,12 +9,28 @@ import org.activeorm.mapping.AttributeMapping;
  */
 public class HasOne<T extends ActiveRecord> extends Relationship<T> {
 
-    protected HasOne(final AttributeMapping attribute) {
+    private T cache;
+
+    public HasOne(final AttributeMapping attribute) {
         super(attribute);
     }
 
     public T get() {
+        if (cache != null) {
+            return cache;
+        }
         return null;
+    }
+
+    public boolean save() {
+        if (cache == null) {
+            return false;
+        }
+        return cache.save();
+    }
+
+    public boolean bind() {
+        return false;
     }
 
 }

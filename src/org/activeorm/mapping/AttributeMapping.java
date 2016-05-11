@@ -2,7 +2,7 @@ package org.activeorm.mapping;
 
 import org.activeorm.mapping.annotations.Column;
 import org.activeorm.mapping.annotations.PrimaryKey;
-import org.activeorm.mapping.annotations.Relationship;
+import org.activeorm.mapping.relationships.Relationship;
 import org.activeorm.utility.ReflectedField;
 
 import java.lang.reflect.Field;
@@ -25,12 +25,6 @@ public class AttributeMapping<T> {
      * The {@link Class} that the field belongs to.
      */
     public PrimaryKey primaryKey;
-
-    /**
-     * The {@link Relationship} annotation associated
-     * with this field.
-     */
-    public Relationship relationship;
 
     /**
      * The {@link ReflectedField} that this {@link AttributeMapping} uses.

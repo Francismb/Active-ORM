@@ -1,6 +1,7 @@
 package org.activeorm.mapping.relationships;
 
 import org.activeorm.ActiveRecord;
+import org.activeorm.exceptions.UnableToSaveException;
 import org.activeorm.mapping.AttributeMapping;
 import org.activeorm.query.Query;
 
@@ -12,7 +13,9 @@ import java.util.List;
  */
 public class HasMany<T extends ActiveRecord> extends Relationship<T> {
 
-    protected HasMany(final AttributeMapping attribute) {
+    private List<T> cache;
+
+    public HasMany(final AttributeMapping attribute) {
         super(attribute);
     }
 
@@ -21,7 +24,26 @@ public class HasMany<T extends ActiveRecord> extends Relationship<T> {
     }
 
     public List<T> results() {
+        if (cache != null) {
+            return cache;
+        }
         return Query.build(type).results();
+    }
+
+    public boolean save() {
+        if (cache == null) {
+            return false;
+        }
+        for (final ActiveRecord record : cache) {
+            if (!record.save()) {
+                throw new UnableToSaveException("Was unable to save ActiveRecord");
+            }
+        }
+        return true;
+    }
+
+    public boolean bind() {
+        return false;
     }
 }
 
