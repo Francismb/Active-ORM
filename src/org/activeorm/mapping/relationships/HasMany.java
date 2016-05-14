@@ -13,8 +13,16 @@ import java.util.List;
  */
 public class HasMany<T extends ActiveRecord> extends Relationship<T> {
 
+    /**
+     * A cache of the results created from #results
+     */
     private List<T> cache;
 
+    /**
+     * Constructs a new {@link HasMany}
+     *
+     * @param attribute
+     */
     public HasMany(final AttributeMapping attribute) {
         super(attribute);
     }
@@ -27,6 +35,8 @@ public class HasMany<T extends ActiveRecord> extends Relationship<T> {
         if (cache != null) {
             return cache;
         }
+        final Query<T> query = Query.build(type);
+        query.where(attribute.column.relationship()).equalTo(attribute.)
         return Query.build(type).results();
     }
 
