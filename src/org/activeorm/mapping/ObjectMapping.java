@@ -73,7 +73,7 @@ public class ObjectMapping {
                     attribute.column = field.getAnnotation(Column.class);
 
                     // If the column relationship contains no data throw an exception
-                    if (attribute.column.relationship().equals("null")) {
+                    if (attribute.column.name().equals("none")) {
                         throw new IllegalArgumentException("Column annotation requires a relationship column name");
                     }
 
@@ -94,7 +94,6 @@ public class ObjectMapping {
                         hasMany.bind();
                         relationships.add(hasMany);
                     }
-
                 } else {
                     // Create the attribute
                     final AttributeMapping attribute = new AttributeMapping(field, instance);
@@ -126,6 +125,16 @@ public class ObjectMapping {
                     attributes.add(attribute);
                 }
             }
+        }
+    }
+
+    /**
+     * Resets the attributes so that there initial value
+     * is equal to the current value.
+     */
+    public void resetAttributes() {
+        for (final AttributeMapping attribute : attributes) {
+            attribute.field.reset();
         }
     }
 }

@@ -13,7 +13,7 @@ import org.activeorm.mapping.relationships.BelongsTo;
 public class Pie extends ActiveRecord {
 
     @PrimaryKey
-    @Column(name = "id")
+    @Column(name = "pie_id")
     public int id;
 
     @Column(name = "user_id")

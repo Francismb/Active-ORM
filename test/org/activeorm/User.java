@@ -3,7 +3,9 @@ package org.activeorm;
 import org.activeorm.mapping.annotations.Column;
 import org.activeorm.mapping.annotations.PrimaryKey;
 import org.activeorm.mapping.annotations.Table;
+import org.activeorm.mapping.relationships.BelongsTo;
 import org.activeorm.mapping.relationships.HasMany;
+import org.activeorm.mapping.relationships.HasOne;
 
 /**
  * Created by Francis on 10/04/16.
@@ -23,6 +25,6 @@ public class User extends ActiveRecord {
     public String password;
 
     @Column(name = "user_id")
-    public HasMany<Pie> pies;
+    public HasOne<Pie> pie;
 
 }

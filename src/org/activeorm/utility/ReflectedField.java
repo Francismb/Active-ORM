@@ -72,6 +72,13 @@ public class ReflectedField<T> {
     }
 
     /**
+     * Resets the initial value to the current one.
+     */
+    public void reset() {
+        this.initialValue = getValue();
+    }
+
+    /**
      * Gets the name of the field.
      *
      * @return the name of the field.

@@ -34,6 +34,8 @@ public class ActiveRecordTest {
     public void testBH2Destroy() {
         final Database database = Database.fromYaml("./h2-config.yml");
 
+        database.execute("CREATE TABLE users(user_id INT PRIMARY KEY AUTO_INCREMENT, username VARCHAR(50), password VARCHAR(50))", null);
+
         User user = new User();
         user.name = "tom";
         user.save();
@@ -41,8 +43,6 @@ public class ActiveRecordTest {
 
         user = Query.build(User.class).where("username").equalTo("tom").first();
         assertTrue(user.destroy());
-
-        database.execute("DROP TABLE users", null);
 
         database.disconnect();
     }

@@ -14,12 +14,12 @@ import java.util.List;
 public class HasMany<T extends ActiveRecord> extends Relationship<T> {
 
     /**
-     * A cache of the results created from #results
+     * A cache of the results created from #results.
      */
     private List<T> cache;
 
     /**
-     * Constructs a new {@link HasMany}
+     * Constructs a new {@link HasMany}.
      *
      * @param attribute
      */
@@ -27,8 +27,15 @@ public class HasMany<T extends ActiveRecord> extends Relationship<T> {
         super(attribute);
     }
 
+    /**
+     * Builds a query that has the relationship built into it.
+     *
+     * @return
+     */
     public Query<T> query() {
-        return Query.build(type);
+        final Query<T> query = Query.build(type);
+        //query.where(attribute.column.relationship()).equalTo()
+        return query;
     }
 
     public List<T> results() {
@@ -36,7 +43,7 @@ public class HasMany<T extends ActiveRecord> extends Relationship<T> {
             return cache;
         }
         final Query<T> query = Query.build(type);
-        query.where(attribute.column.relationship()).equalTo(attribute.)
+        //query.where(attribute.column.relationship()).equalTo(attribute.)
         return Query.build(type).results();
     }
 
@@ -52,8 +59,15 @@ public class HasMany<T extends ActiveRecord> extends Relationship<T> {
         return true;
     }
 
-    public boolean bind() {
+    @Override
+    public boolean destroy() {
         return false;
     }
+
+    @Override
+    public boolean destroyAll() {
+        return false;
+    }
+
 }
 

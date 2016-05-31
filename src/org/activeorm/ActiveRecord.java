@@ -3,6 +3,7 @@ package org.activeorm;
 import org.activeorm.database.Database;
 import org.activeorm.mapping.AttributeMapping;
 import org.activeorm.mapping.ObjectMapping;
+import org.activeorm.mapping.relationships.Relationship;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class ActiveRecord {
      * The {@link ObjectMapping} used to map the object.
      * Constructed in the constructor of {@link ActiveRecord}.
      */
-    private final ObjectMapping mapping;
+    protected final ObjectMapping mapping;
 
     /**
      * Constructs a new {@link ActiveRecord}.
@@ -65,7 +66,18 @@ public class ActiveRecord {
         }
 
         // Execute the sql and return the amount of records modified, normally one.
-        return database.execute(sql, values, mapping.primaryKey) > 0;
+        final int result = database.execute(sql, values, mapping.primaryKey);
+        if (result > 0) {
+            mapping.persisted = true;
+        }
+
+        // Save all the relationships
+        for (final Relationship relationship : mapping.relationships) {
+            relationship.save();
+        }
+
+        // If the amount of records changed is larger then 0 return true
+        return result > 0;
     }
 
     /**
@@ -90,6 +102,27 @@ public class ActiveRecord {
         final String sql = database.sql.delete(mapping.table.name(), columns, operators);
 
         // Execute the sql and return the amount of records modified, normally one.
-        return database.execute(sql, values) > 0;
+        final int result = database.execute(sql, values);
+        if (result > 0) {
+            mapping.persisted = false;
+        }
+
+        // If the amount of records changed is larger then 0 return true
+        return result > 0;
+    }
+
+    /**
+     * Deletes the record from the database.
+     *
+     * @return true if successful, else false.
+     */
+    public boolean destroyAll() {
+        // Destroy all relationship data
+        for (final Relationship relationship : mapping.relationships) {
+            relationship.destroyAll();
+        }
+
+        // Destroy this record
+        return destroy();
     }
 }

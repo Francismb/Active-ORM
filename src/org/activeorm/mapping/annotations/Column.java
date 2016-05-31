@@ -21,9 +21,4 @@ public @interface Column {
      */
     public String name() default "none";
 
-    /**
-     * The name of the database column that this annotation is linked to.
-     */
-    public String relationship() default "none";
-
 }

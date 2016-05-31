@@ -45,4 +45,15 @@ public class StaticAttributeMapping {
         this.clazz = clazz;
         this.field = field;
     }
+
+    /**
+     * Checks to see if the {@link PrimaryKey}
+     * variable has been set.
+     *
+     * @return true if the {@link PrimaryKey}
+     * variable has been set else false.
+     */
+    public boolean isPrimaryKey() {
+        return primaryKey != null;
+    }
 }

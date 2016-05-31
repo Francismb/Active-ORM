@@ -29,7 +29,13 @@ public class BelongsTo<T extends ActiveRecord> extends Relationship<T> {
         return cache.save();
     }
 
-    public boolean bind() {
+    @Override
+    public boolean destroy() {
+        return false;
+    }
+
+    @Override
+    public boolean destroyAll() {
         return false;
     }
 
