@@ -13,7 +13,6 @@ import org.activeorm.mapping.relationships.Relationship;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -73,9 +72,12 @@ public class ObjectMapping {
                     attribute.column = field.getAnnotation(Column.class);
 
                     // If the column relationship contains no data throw an exception
-                    if (attribute.column.name().equals("none")) {
+                    if (attribute.column.name().equals("null")) {
                         throw new IllegalArgumentException("Column annotation requires a relationship column name");
                     }
+
+                    // Add the attribute
+                    attributes.add(attribute);
 
                     // Get the field type
                     final Class<?> type = field.getType();

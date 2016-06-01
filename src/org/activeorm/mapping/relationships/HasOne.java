@@ -18,7 +18,7 @@ public class HasOne<T extends ActiveRecord> extends Relationship<T> {
     /**
      * Constructs a new {@link HasOne}.
      *
-     * @param attribute the
+     * @param attribute
      */
     public HasOne(final AttributeMapping attribute) {
         super(attribute);

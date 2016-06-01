@@ -9,7 +9,7 @@ package org.activeorm.exceptions;
  * by the database.
  */
 public class UnsupportedDataTypeException extends RuntimeException {
-    public UnsupportedDataTypeException(final String datatype) {
-        super("Unsupported data type " + datatype);
+    public UnsupportedDataTypeException(final String type) {
+        super("Unsupported data type " + type);
     }
 }

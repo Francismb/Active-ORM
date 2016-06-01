@@ -19,6 +19,6 @@ public @interface Column {
     /**
      * The name of the database column.
      */
-    public String name() default "none";
+    public String name() default "null";
 
 }

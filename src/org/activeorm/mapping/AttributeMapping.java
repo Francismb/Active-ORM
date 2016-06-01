@@ -2,7 +2,6 @@ package org.activeorm.mapping;
 
 import org.activeorm.mapping.annotations.Column;
 import org.activeorm.mapping.annotations.PrimaryKey;
-import org.activeorm.mapping.relationships.Relationship;
 import org.activeorm.utility.ReflectedField;
 
 import java.lang.reflect.Field;
@@ -38,7 +37,7 @@ public class AttributeMapping<T> {
      * @param instance the instance to get the value from.
      */
     public AttributeMapping(final Field field, final Object instance) {
-        this.field = new ReflectedField<T>(field, instance);
+        this.field = new ReflectedField<>(field, instance);
     }
 
     /**

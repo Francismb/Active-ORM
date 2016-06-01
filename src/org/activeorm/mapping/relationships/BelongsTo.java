@@ -9,24 +9,42 @@ import org.activeorm.mapping.AttributeMapping;
  */
 public class BelongsTo<T extends ActiveRecord> extends Relationship<T> {
 
-    private T cache;
+    /**
+     * The cached value of this relationship.
+     */
+    private T value;
 
+    /**
+     * Constructs a new {@link BelongsTo}.
+     *
+     * @param attribute
+     */
     public BelongsTo(final AttributeMapping attribute) {
         super(attribute);
     }
 
+    /**
+     * Gets the value of this relationship.
+     *
+     * @return the value of this relationship.
+     */
     public T get() {
-        if (cache != null) {
-            return cache;
+        if (value != null) {
+            return value;
         }
         return null;
     }
 
+    public void set(final T value) {
+        attribute.field.setValue(value.getId());
+        this.value = value;
+    }
+
     public boolean save() {
-        if (cache == null) {
+        if (value == null) {
             return false;
         }
-        return cache.save();
+        return value.save();
     }
 
     @Override
